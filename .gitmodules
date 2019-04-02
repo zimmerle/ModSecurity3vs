@@ -1,3 +1,6 @@
 [submodule "ModSecurity"]
 	path = ModSecurity
 	url = https://github.com/SpiderLabs/ModSecurity
+[submodule "external/yajl"]
+	path = external/yajl
+	url = https://github.com/lloyd/yajl.git
