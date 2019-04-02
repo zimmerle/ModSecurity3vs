@@ -1,0 +1,992 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>15.0</VCProjectVersion>
+    <ProjectGuid>{F629E4EA-75DD-40B8-ABA8-2FEAF31D818E}</ProjectGuid>
+    <Keyword>MFCDLLProj</Keyword>
+    <RootNamespace>ModSecurity</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
+    <ProjectName>libModSecurity</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+    <UseOfMfc>Static</UseOfMfc>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+    <UseOfMfc>Static</UseOfMfc>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+    <UseOfMfc>Static</UseOfMfc>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+    <UseOfMfc>Static</UseOfMfc>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>MBEDTLS_CONFIG_FILE="mbed-tls-config.h";YY_NO_UNISTD_H;WITH_YAJL</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(MSBuildProjectDirectory)\..\ModSecurity\;$(MSBuildProjectDirectory)\..\ModSecurity\others;$(MSBuildProjectDirectory)\..\ModSecurity\headers;C:\Users\zimmerle\source\repos\ModSecurity\yajl\build\yajl-2.1.1\include</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <ModuleDefinitionFile>.\ModSecurity.def</ModuleDefinitionFile>
+      <AdditionalLibraryDirectories>C:\Users\zimmerle\source\repos\ModSecurity\yajl\build\yajl-2.1.1\lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>yajl.lib;yajl_s.lib;yajl.exp;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <Midl>
+      <MkTypLibCompatible>false</MkTypLibCompatible>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </Midl>
+    <ResourceCompile>
+      <Culture>0x0416</Culture>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Lib>
+      <AdditionalDependencies>yajl.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Lib>
+    <Lib>
+      <AdditionalLibraryDirectories>C:\Users\zimmerle\source\repos\ModSecurity\yajl\build\yajl-2.1.1\lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>MBEDTLS_CONFIG_FILE="mbed-tls-config.h";YY_NO_UNISTD_H;WITH_YAJL</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(MSBuildProjectDirectory)\..\ModSecurity\;$(MSBuildProjectDirectory)\..\ModSecurity\others;$(MSBuildProjectDirectory)\..\ModSecurity\headers;C:\Users\zimmerle\source\repos\ModSecurity\yajl\build\yajl-2.1.1\include</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <ModuleDefinitionFile>.\ModSecurity.def</ModuleDefinitionFile>
+      <AdditionalLibraryDirectories>C:\Users\zimmerle\source\repos\ModSecurity\yajl\build\yajl-2.1.1\lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>yajl.lib;yajl_s.lib;yajl.exp;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <Midl>
+      <MkTypLibCompatible>false</MkTypLibCompatible>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </Midl>
+    <ResourceCompile>
+      <Culture>0x0416</Culture>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Lib>
+      <AdditionalDependencies>yajl.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Lib>
+    <Lib>
+      <AdditionalLibraryDirectories>C:\Users\zimmerle\source\repos\ModSecurity\yajl\build\yajl-2.1.1\lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>MBEDTLS_CONFIG_FILE="mbed-tls-config.h";YY_NO_UNISTD_H;WITH_YAJL</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(MSBuildProjectDirectory)\..\ModSecurity\;$(MSBuildProjectDirectory)\..\ModSecurity\others;$(MSBuildProjectDirectory)\..\ModSecurity\headers;C:\Users\zimmerle\source\repos\ModSecurity\yajl\build\yajl-2.1.1\include</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <ModuleDefinitionFile>.\ModSecurity.def</ModuleDefinitionFile>
+      <AdditionalLibraryDirectories>C:\Users\zimmerle\source\repos\ModSecurity\yajl\build\yajl-2.1.1\lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>yajl.lib;yajl_s.lib;yajl.exp;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <Midl>
+      <MkTypLibCompatible>false</MkTypLibCompatible>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </Midl>
+    <ResourceCompile>
+      <Culture>0x0416</Culture>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Lib>
+      <AdditionalDependencies>yajl.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Lib>
+    <Lib>
+      <AdditionalLibraryDirectories>C:\Users\zimmerle\source\repos\ModSecurity\yajl\build\yajl-2.1.1\lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>MBEDTLS_CONFIG_FILE="mbed-tls-config.h";YY_NO_UNISTD_H;WITH_YAJL</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(MSBuildProjectDirectory)\..\ModSecurity\;$(MSBuildProjectDirectory)\..\ModSecurity\others;$(MSBuildProjectDirectory)\..\ModSecurity\headers;C:\Users\zimmerle\source\repos\ModSecurity\yajl\build\yajl-2.1.1\include</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <ModuleDefinitionFile>.\ModSecurity.def</ModuleDefinitionFile>
+      <AdditionalLibraryDirectories>C:\Users\zimmerle\source\repos\ModSecurity\yajl\build\yajl-2.1.1\lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>yajl.lib;yajl_s.lib;yajl.exp;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <Midl>
+      <MkTypLibCompatible>false</MkTypLibCompatible>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </Midl>
+    <ResourceCompile>
+      <Culture>0x0416</Culture>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Lib>
+      <AdditionalDependencies>yajl.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Lib>
+    <Lib>
+      <AdditionalLibraryDirectories>C:\Users\zimmerle\source\repos\ModSecurity\yajl\build\yajl-2.1.1\lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\ModSecurity\others\libinjection\src\libinjection_html5.c" />
+    <ClCompile Include="..\ModSecurity\others\libinjection\src\libinjection_sqli.c" />
+    <ClCompile Include="..\ModSecurity\others\libinjection\src\libinjection_xss.c" />
+    <ClCompile Include="..\ModSecurity\others\libinjection\src\reader.c" />
+    <ClCompile Include="..\ModSecurity\others\mbedtls\base64.c" />
+    <ClCompile Include="..\ModSecurity\others\mbedtls\md5.c" />
+    <ClCompile Include="..\ModSecurity\others\mbedtls\sha1.c" />
+    <ClCompile Include="..\ModSecurity\src\operators\detect_sqli.cc">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)operators\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)operators\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)operators\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)operators\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\rule.cc" />
+    <ClCompile Include="..\ModSecurity\src\rules.cc" />
+    <ClCompile Include="..\ModSecurity\src\rules_exceptions.cc" />
+    <ClCompile Include="..\ModSecurity\src\rules_properties.cc" />
+    <ClCompile Include="..\ModSecurity\src\rule_message.cc" />
+    <ClCompile Include="..\ModSecurity\src\rule_script.cc" />
+    <ClCompile Include="..\ModSecurity\src\run_time_string.cc" />
+    <ClCompile Include="..\ModSecurity\src\transaction.cc" />
+    <ClCompile Include="..\ModSecurity\src\unique_id.cc" />
+    <ClCompile Include="..\ModSecurity\ModSecurity.cpp" />
+    <ClCompile Include="..\ModSecurity\src\actions\accuracy.cc">
+      <ObjectFileName>$(IntDir)actions\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\actions\action.cc">
+      <ObjectFileName>$(IntDir)actions\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\actions\audit_log.cc">
+      <ObjectFileName>$(IntDir)actions\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\actions\block.cc">
+      <ObjectFileName>$(IntDir)actions\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\actions\capture.cc">
+      <ObjectFileName>$(IntDir)actions\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\actions\chain.cc">
+      <ObjectFileName>$(IntDir)actions\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\actions\ctl\audit_log_parts.cc">
+      <ObjectFileName>$(IntDir)actions\ctl\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\actions\ctl\request_body_access.cc">
+      <ObjectFileName>$(IntDir)actions\ctl\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\actions\ctl\request_body_processor_json.cc">
+      <ObjectFileName>$(IntDir)actions\ctl\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\actions\ctl\request_body_processor_urlencoded.cc">
+      <ObjectFileName>$(IntDir)actions\ctl\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\actions\ctl\request_body_processor_xml.cc">
+      <ObjectFileName>$(IntDir)actions\ctl\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\actions\ctl\rule_engine.cc">
+      <ObjectFileName>$(IntDir)actions\ctl\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\actions\ctl\rule_remove_by_id.cc">
+      <ObjectFileName>$(IntDir)actions\ctl\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\actions\ctl\rule_remove_by_tag.cc">
+      <ObjectFileName>$(IntDir)actions\ctl\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\actions\ctl\rule_remove_target_by_id.cc">
+      <ObjectFileName>$(IntDir)actions\ctl\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\actions\ctl\rule_remove_target_by_tag.cc">
+      <ObjectFileName>$(IntDir)actions\ctl\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\actions\data\status.cc">
+      <ObjectFileName>$(IntDir)actions\data\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\actions\disruptive\allow.cc">
+      <ObjectFileName>$(IntDir)actions\disruptive\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\actions\disruptive\deny.cc">
+      <ObjectFileName>$(IntDir)actions\disruptive\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\actions\disruptive\drop.cc">
+      <ObjectFileName>$(IntDir)actions\disruptive\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\actions\disruptive\pass.cc">
+      <ObjectFileName>$(IntDir)actions\disruptive\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\actions\disruptive\redirect.cc">
+      <ObjectFileName>$(IntDir)actions\disruptive\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\actions\exec.cc">
+      <ObjectFileName>$(IntDir)actions\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\actions\init_col.cc">
+      <ObjectFileName>$(IntDir)actions\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\actions\log.cc">
+      <ObjectFileName>$(IntDir)actions\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\actions\log_data.cc">
+      <ObjectFileName>$(IntDir)actions\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\actions\maturity.cc">
+      <ObjectFileName>$(IntDir)actions\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\actions\msg.cc">
+      <ObjectFileName>$(IntDir)actions\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\actions\multi_match.cc">
+      <ObjectFileName>$(IntDir)actions\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\actions\no_audit_log.cc">
+      <ObjectFileName>$(IntDir)actions\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\actions\no_log.cc">
+      <ObjectFileName>$(IntDir)actions\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\actions\phase.cc">
+      <ObjectFileName>$(IntDir)actions\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\actions\rev.cc">
+      <ObjectFileName>$(IntDir)actions\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\actions\rule_id.cc">
+      <ObjectFileName>$(IntDir)actions\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\actions\set_env.cc">
+      <ObjectFileName>$(IntDir)actions\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\actions\set_rsc.cc">
+      <ObjectFileName>$(IntDir)actions\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\actions\set_sid.cc">
+      <ObjectFileName>$(IntDir)actions\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\actions\set_uid.cc">
+      <ObjectFileName>$(IntDir)actions\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\actions\set_var.cc">
+      <ObjectFileName>$(IntDir)actions\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\actions\severity.cc">
+      <ObjectFileName>$(IntDir)actions\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\actions\skip.cc">
+      <ObjectFileName>$(IntDir)actions\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\actions\skip_after.cc">
+      <ObjectFileName>$(IntDir)actions\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\actions\tag.cc">
+      <ObjectFileName>$(IntDir)actions\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\actions\transformations\base64_decode.cc">
+      <ObjectFileName>$(IntDir)actions\transformations\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\actions\transformations\base64_decode_ext.cc">
+      <ObjectFileName>$(IntDir)actions\transformations\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\actions\transformations\base64_encode.cc">
+      <ObjectFileName>$(IntDir)actions\transformations\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\actions\transformations\cmd_line.cc">
+      <ObjectFileName>$(IntDir)actions\transformations\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\actions\transformations\compress_whitespace.cc">
+      <ObjectFileName>$(IntDir)actions\transformations\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\actions\transformations\css_decode.cc">
+      <ObjectFileName>$(IntDir)actions\transformations\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\actions\transformations\escape_seq_decode.cc">
+      <ObjectFileName>$(IntDir)actions\transformations\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\actions\transformations\hex_decode.cc">
+      <ObjectFileName>$(IntDir)actions\transformations\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\actions\transformations\hex_encode.cc">
+      <ObjectFileName>$(IntDir)actions\transformations\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\actions\transformations\html_entity_decode.cc">
+      <ObjectFileName>$(IntDir)actions\transformations\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\actions\transformations\js_decode.cc">
+      <ObjectFileName>$(IntDir)actions\transformations\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\actions\transformations\length.cc">
+      <ObjectFileName>$(IntDir)actions\transformations\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\actions\transformations\lower_case.cc">
+      <ObjectFileName>$(IntDir)actions\transformations\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\actions\transformations\md5.cc">
+      <ObjectFileName>$(IntDir)actions\transformations\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\actions\transformations\none.cc" />
+    <ClCompile Include="..\ModSecurity\src\actions\transformations\normalise_path.cc">
+      <ObjectFileName>$(IntDir)actions\transformations\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\actions\transformations\normalise_path_win.cc">
+      <ObjectFileName>$(IntDir)actions\transformations\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\actions\transformations\parity_even_7bit.cc">
+      <ObjectFileName>$(IntDir)actions\transformations\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\actions\transformations\parity_odd_7bit.cc">
+      <ObjectFileName>$(IntDir)actions\transformations\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\actions\transformations\parity_zero_7bit.cc">
+      <ObjectFileName>$(IntDir)actions\transformations\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\actions\transformations\remove_comments.cc">
+      <ObjectFileName>$(IntDir)actions\transformations\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\actions\transformations\remove_comments_char.cc">
+      <ObjectFileName>$(IntDir)actions\transformations\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\actions\transformations\remove_nulls.cc">
+      <ObjectFileName>$(IntDir)actions\transformations\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\actions\transformations\remove_whitespace.cc">
+      <ObjectFileName>$(IntDir)actions\transformations\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\actions\transformations\replace_comments.cc">
+      <ObjectFileName>$(IntDir)actions\transformations\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\actions\transformations\replace_nulls.cc">
+      <ObjectFileName>$(IntDir)actions\transformations\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\actions\transformations\sha1.cc">
+      <ObjectFileName>$(IntDir)actions\transformations\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\actions\transformations\sql_hex_decode.cc">
+      <ObjectFileName>$(IntDir)actions\transformations\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\actions\transformations\transformation.cc">
+      <ObjectFileName>$(IntDir)actions\transformations\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\actions\transformations\trim.cc">
+      <ObjectFileName>$(IntDir)actions\transformations\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\actions\transformations\trim_left.cc">
+      <ObjectFileName>$(IntDir)actions\transformations\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\actions\transformations\trim_right.cc">
+      <ObjectFileName>$(IntDir)actions\transformations\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\actions\transformations\upper_case.cc">
+      <ObjectFileName>$(IntDir)actions\transformations\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\actions\transformations\url_decode.cc">
+      <ObjectFileName>$(IntDir)actions\transformations\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\actions\transformations\url_decode_uni.cc">
+      <ObjectFileName>$(IntDir)actions\transformations\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\actions\transformations\url_encode.cc">
+      <ObjectFileName>$(IntDir)actions\transformations\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\actions\transformations\utf8_to_unicode.cc">
+      <ObjectFileName>$(IntDir)actions\transformations\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\actions\ver.cc">
+      <ObjectFileName>$(IntDir)actions\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\actions\xmlns.cc">
+      <ObjectFileName>$(IntDir)actions\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\anchored_set_variable.cc" />
+    <ClCompile Include="..\ModSecurity\src\anchored_variable.cc" />
+    <ClCompile Include="..\ModSecurity\src\audit_log\audit_log.cc" />
+    <ClCompile Include="..\ModSecurity\src\audit_log\writer\https.cc" />
+    <ClCompile Include="..\ModSecurity\src\audit_log\writer\parallel.cc" />
+    <ClCompile Include="..\ModSecurity\src\audit_log\writer\serial.cc" />
+    <ClCompile Include="..\ModSecurity\src\audit_log\writer\writer.cc" />
+    <ClCompile Include="..\ModSecurity\src\collection\backend\in_memory-per_process.cc" />
+    <ClCompile Include="..\ModSecurity\src\collection\backend\lmdb.cc" />
+    <ClCompile Include="..\ModSecurity\src\collection\collections.cc" />
+    <ClCompile Include="..\ModSecurity\src\debug_log\debug_log.cc" />
+    <ClCompile Include="..\ModSecurity\src\debug_log\debug_log_writer.cc" />
+    <ClCompile Include="..\ModSecurity\src\engine\lua.cc" />
+    <ClCompile Include="..\ModSecurity\src\modsecurity.cc" />
+    <ClCompile Include="..\ModSecurity\src\operators\begins_with.cc">
+      <ObjectFileName>$(IntDir)operators\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\operators\contains.cc">
+      <ObjectFileName>$(IntDir)operators\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\operators\contains_word.cc">
+      <ObjectFileName>$(IntDir)operators\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\operators\detect_xss.cc">
+      <ObjectFileName>$(IntDir)operators\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\operators\ends_with.cc">
+      <ObjectFileName>$(IntDir)operators\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\operators\eq.cc">
+      <ObjectFileName>$(IntDir)operators\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\operators\fuzzy_hash.cc">
+      <ObjectFileName>$(IntDir)operators\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\operators\ge.cc">
+      <ObjectFileName>$(IntDir)operators\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\operators\geo_lookup.cc">
+      <ObjectFileName>$(IntDir)operators\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\operators\gsblookup.cc">
+      <ObjectFileName>$(IntDir)operators\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\operators\gt.cc">
+      <ObjectFileName>$(IntDir)operators\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\operators\inspect_file.cc">
+      <ObjectFileName>$(IntDir)operators\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\operators\ip_match.cc">
+      <ObjectFileName>$(IntDir)operators\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\operators\ip_match_f.cc">
+      <ObjectFileName>$(IntDir)operators\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\operators\ip_match_from_file.cc">
+      <ObjectFileName>$(IntDir)operators\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\operators\le.cc">
+      <ObjectFileName>$(IntDir)operators\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\operators\lt.cc">
+      <ObjectFileName>$(IntDir)operators\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\operators\no_match.cc">
+      <ObjectFileName>$(IntDir)operators\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\operators\operator.cc">
+      <ObjectFileName>$(IntDir)operators\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\operators\pm.cc">
+      <ObjectFileName>$(IntDir)operators\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\operators\pm_f.cc">
+      <ObjectFileName>$(IntDir)operators\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\operators\pm_from_file.cc">
+      <ObjectFileName>$(IntDir)operators\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\operators\rbl.cc">
+      <ObjectFileName>$(IntDir)operators\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\operators\rsub.cc">
+      <ObjectFileName>$(IntDir)operators\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\operators\rx.cc">
+      <ObjectFileName>$(IntDir)operators\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\operators\str_eq.cc">
+      <ObjectFileName>$(IntDir)operators\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\operators\str_match.cc">
+      <ObjectFileName>$(IntDir)operators\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\operators\unconditional_match.cc">
+      <ObjectFileName>$(IntDir)operators\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\operators\validate_byte_range.cc">
+      <ObjectFileName>$(IntDir)operators\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\operators\validate_dtd.cc">
+      <ObjectFileName>$(IntDir)operators\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\operators\validate_hash.cc">
+      <ObjectFileName>$(IntDir)operators\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\operators\validate_schema.cc">
+      <ObjectFileName>$(IntDir)operators\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\operators\validate_url_encoding.cc">
+      <ObjectFileName>$(IntDir)operators\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\operators\validate_utf8_encoding.cc">
+      <ObjectFileName>$(IntDir)operators\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\operators\verify_cc.cc">
+      <ObjectFileName>$(IntDir)operators\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\operators\verify_cpf.cc">
+      <ObjectFileName>$(IntDir)operators\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\operators\verify_ssn.cc">
+      <ObjectFileName>$(IntDir)operators\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\operators\within.cc">
+      <ObjectFileName>$(IntDir)operators\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\parser\driver.cc">
+      <ObjectFileName>$(IntDir)parser\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\parser\seclang-parser.cc">
+      <ObjectFileName>$(IntDir)parser\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\parser\seclang-scanner.cc">
+      <ObjectFileName>$(IntDir)parser\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\request_body_processor\json.cc">
+      <ObjectFileName>$(IntDir)\request_body_processor\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\request_body_processor\multipart.cc">
+      <ObjectFileName>$(IntDir)\request_body_processor\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\request_body_processor\xml.cc">
+      <ObjectFileName>$(IntDir)\request_body_processor\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\utils\acmp.cc">
+      <ObjectFileName>$(IntDir)\utils\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\utils\base64.cc">
+      <ObjectFileName>$(IntDir)\utils\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\utils\decode.cc">
+      <ObjectFileName>$(IntDir)\utils\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\utils\geo_lookup.cc">
+      <ObjectFileName>$(IntDir)\utils\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\utils\https_client.cc">
+      <ObjectFileName>$(IntDir)\utils\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\utils\ip_tree.cc">
+      <ObjectFileName>$(IntDir)\utils\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\utils\md5.cc">
+      <ObjectFileName>$(IntDir)\utils\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\utils\msc_tree.cc">
+      <ObjectFileName>$(IntDir)\utils\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\utils\random.cc">
+      <ObjectFileName>$(IntDir)\utils\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\utils\regex.cc">
+      <ObjectFileName>$(IntDir)\utils\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\utils\sha1.cc">
+      <ObjectFileName>$(IntDir)\utils\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\utils\shared_files.cc">
+      <ObjectFileName>$(IntDir)\utils\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\utils\string.cc">
+      <ObjectFileName>$(IntDir)\utils\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\utils\system.cc">
+      <ObjectFileName>$(IntDir)\utils\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\ModSecurity\src\variables\duration.cc" />
+    <ClCompile Include="..\ModSecurity\src\variables\env.cc" />
+    <ClCompile Include="..\ModSecurity\src\variables\highest_severity.cc" />
+    <ClCompile Include="..\ModSecurity\src\variables\modsec_build.cc" />
+    <ClCompile Include="..\ModSecurity\src\variables\remote_user.cc" />
+    <ClCompile Include="..\ModSecurity\src\variables\time.cc" />
+    <ClCompile Include="..\ModSecurity\src\variables\time_day.cc" />
+    <ClCompile Include="..\ModSecurity\src\variables\time_epoch.cc" />
+    <ClCompile Include="..\ModSecurity\src\variables\time_hour.cc" />
+    <ClCompile Include="..\ModSecurity\src\variables\time_min.cc" />
+    <ClCompile Include="..\ModSecurity\src\variables\time_mon.cc" />
+    <ClCompile Include="..\ModSecurity\src\variables\time_sec.cc" />
+    <ClCompile Include="..\ModSecurity\src\variables\time_wday.cc" />
+    <ClCompile Include="..\ModSecurity\src\variables\time_year.cc" />
+    <ClCompile Include="..\ModSecurity\src\variables\tx.cc" />
+    <ClCompile Include="..\ModSecurity\src\variables\variable.cc" />
+    <ClCompile Include="..\ModSecurity\src\variables\xml.cc" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\ModSecurity\ModSecurity.def" />
+    <None Include="..\ModSecurity\res\ModSecurity.rc2" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\ModSecurity\others\libinjection\src\libinjection.h" />
+    <ClInclude Include="..\ModSecurity\others\libinjection\src\libinjection_sqli.h" />
+    <ClInclude Include="..\ModSecurity\others\libinjection\src\libinjection_sqli_data.h" />
+    <ClInclude Include="..\ModSecurity\others\libinjection\src\libinjection_xss.h" />
+    <ClInclude Include="..\ModSecurity\others\mbedtls\base64.h" />
+    <ClInclude Include="..\ModSecurity\others\mbedtls\check_config.h" />
+    <ClInclude Include="..\ModSecurity\others\mbedtls\mbed-tls-config.h" />
+    <ClInclude Include="..\ModSecurity\others\mbedtls\md5.h" />
+    <ClInclude Include="..\ModSecurity\others\mbedtls\platform.h" />
+    <ClInclude Include="..\ModSecurity\others\mbedtls\sha1.h" />
+    <ClInclude Include="..\ModSecurity\src\rule_script.h" />
+    <ClInclude Include="..\ModSecurity\src\run_time_string.h" />
+    <ClInclude Include="..\ModSecurity\src\unique_id.h" />
+    <ClInclude Include="..\ModSecurity\headers\modsecurity\actions\action.h" />
+    <ClInclude Include="..\ModSecurity\headers\modsecurity\anchored_set_variable.h" />
+    <ClInclude Include="..\ModSecurity\headers\modsecurity\anchored_variable.h" />
+    <ClInclude Include="..\ModSecurity\headers\modsecurity\audit_log.h" />
+    <ClInclude Include="..\ModSecurity\headers\modsecurity\collection\collection.h" />
+    <ClInclude Include="..\ModSecurity\headers\modsecurity\collection\collections.h" />
+    <ClInclude Include="..\ModSecurity\headers\modsecurity\debug_log.h" />
+    <ClInclude Include="..\ModSecurity\headers\modsecurity\intervention.h" />
+    <ClInclude Include="..\ModSecurity\headers\modsecurity\modsecurity.h" />
+    <ClInclude Include="..\ModSecurity\headers\modsecurity\rule.h" />
+    <ClInclude Include="..\ModSecurity\headers\modsecurity\rules.h" />
+    <ClInclude Include="..\ModSecurity\headers\modsecurity\rules_exceptions.h" />
+    <ClInclude Include="..\ModSecurity\headers\modsecurity\rules_properties.h" />
+    <ClInclude Include="..\ModSecurity\headers\modsecurity\rule_message.h" />
+    <ClInclude Include="..\ModSecurity\headers\modsecurity\transaction.h" />
+    <ClInclude Include="..\ModSecurity\headers\modsecurity\variable_origin.h" />
+    <ClInclude Include="..\ModSecurity\headers\modsecurity\variable_value.h" />
+    <ClInclude Include="..\ModSecurity\ModSecurity.h" />
+    <ClInclude Include="..\ModSecurity\Resource.h" />
+    <ClInclude Include="..\ModSecurity\src\actions\accuracy.h" />
+    <ClInclude Include="..\ModSecurity\src\actions\audit_log.h" />
+    <ClInclude Include="..\ModSecurity\src\actions\block.h" />
+    <ClInclude Include="..\ModSecurity\src\actions\capture.h" />
+    <ClInclude Include="..\ModSecurity\src\actions\chain.h" />
+    <ClInclude Include="..\ModSecurity\src\actions\ctl\audit_log_parts.h" />
+    <ClInclude Include="..\ModSecurity\src\actions\ctl\request_body_access.h" />
+    <ClInclude Include="..\ModSecurity\src\actions\ctl\request_body_processor_json.h" />
+    <ClInclude Include="..\ModSecurity\src\actions\ctl\request_body_processor_urlencoded.h" />
+    <ClInclude Include="..\ModSecurity\src\actions\ctl\request_body_processor_xml.h" />
+    <ClInclude Include="..\ModSecurity\src\actions\ctl\rule_engine.h" />
+    <ClInclude Include="..\ModSecurity\src\actions\ctl\rule_remove_by_id.h" />
+    <ClInclude Include="..\ModSecurity\src\actions\ctl\rule_remove_by_tag.h" />
+    <ClInclude Include="..\ModSecurity\src\actions\ctl\rule_remove_target_by_id.h" />
+    <ClInclude Include="..\ModSecurity\src\actions\ctl\rule_remove_target_by_tag.h" />
+    <ClInclude Include="..\ModSecurity\src\actions\data\status.h" />
+    <ClInclude Include="..\ModSecurity\src\actions\disruptive\allow.h" />
+    <ClInclude Include="..\ModSecurity\src\actions\disruptive\deny.h" />
+    <ClInclude Include="..\ModSecurity\src\actions\disruptive\drop.h" />
+    <ClInclude Include="..\ModSecurity\src\actions\disruptive\pass.h" />
+    <ClInclude Include="..\ModSecurity\src\actions\disruptive\redirect.h" />
+    <ClInclude Include="..\ModSecurity\src\actions\exec.h" />
+    <ClInclude Include="..\ModSecurity\src\actions\init_col.h" />
+    <ClInclude Include="..\ModSecurity\src\actions\log.h" />
+    <ClInclude Include="..\ModSecurity\src\actions\log_data.h" />
+    <ClInclude Include="..\ModSecurity\src\actions\maturity.h" />
+    <ClInclude Include="..\ModSecurity\src\actions\msg.h" />
+    <ClInclude Include="..\ModSecurity\src\actions\multi_match.h" />
+    <ClInclude Include="..\ModSecurity\src\actions\no_audit_log.h" />
+    <ClInclude Include="..\ModSecurity\src\actions\no_log.h" />
+    <ClInclude Include="..\ModSecurity\src\actions\phase.h" />
+    <ClInclude Include="..\ModSecurity\src\actions\rev.h" />
+    <ClInclude Include="..\ModSecurity\src\actions\rule_id.h" />
+    <ClInclude Include="..\ModSecurity\src\actions\set_env.h" />
+    <ClInclude Include="..\ModSecurity\src\actions\set_rsc.h" />
+    <ClInclude Include="..\ModSecurity\src\actions\set_sid.h" />
+    <ClInclude Include="..\ModSecurity\src\actions\set_uid.h" />
+    <ClInclude Include="..\ModSecurity\src\actions\set_var.h" />
+    <ClInclude Include="..\ModSecurity\src\actions\severity.h" />
+    <ClInclude Include="..\ModSecurity\src\actions\skip.h" />
+    <ClInclude Include="..\ModSecurity\src\actions\skip_after.h" />
+    <ClInclude Include="..\ModSecurity\src\actions\tag.h" />
+    <ClInclude Include="..\ModSecurity\src\actions\transformations\base64_decode.h" />
+    <ClInclude Include="..\ModSecurity\src\actions\transformations\base64_decode_ext.h" />
+    <ClInclude Include="..\ModSecurity\src\actions\transformations\base64_encode.h" />
+    <ClInclude Include="..\ModSecurity\src\actions\transformations\cmd_line.h" />
+    <ClInclude Include="..\ModSecurity\src\actions\transformations\compress_whitespace.h" />
+    <ClInclude Include="..\ModSecurity\src\actions\transformations\css_decode.h" />
+    <ClInclude Include="..\ModSecurity\src\actions\transformations\escape_seq_decode.h" />
+    <ClInclude Include="..\ModSecurity\src\actions\transformations\hex_decode.h" />
+    <ClInclude Include="..\ModSecurity\src\actions\transformations\hex_encode.h" />
+    <ClInclude Include="..\ModSecurity\src\actions\transformations\html_entity_decode.h" />
+    <ClInclude Include="..\ModSecurity\src\actions\transformations\js_decode.h" />
+    <ClInclude Include="..\ModSecurity\src\actions\transformations\length.h" />
+    <ClInclude Include="..\ModSecurity\src\actions\transformations\lower_case.h" />
+    <ClInclude Include="..\ModSecurity\src\actions\transformations\md5.h" />
+    <ClInclude Include="..\ModSecurity\src\actions\transformations\none.h" />
+    <ClInclude Include="..\ModSecurity\src\actions\transformations\normalise_path.h" />
+    <ClInclude Include="..\ModSecurity\src\actions\transformations\normalise_path_win.h" />
+    <ClInclude Include="..\ModSecurity\src\actions\transformations\parity_even_7bit.h" />
+    <ClInclude Include="..\ModSecurity\src\actions\transformations\parity_odd_7bit.h" />
+    <ClInclude Include="..\ModSecurity\src\actions\transformations\parity_zero_7bit.h" />
+    <ClInclude Include="..\ModSecurity\src\actions\transformations\remove_comments.h" />
+    <ClInclude Include="..\ModSecurity\src\actions\transformations\remove_comments_char.h" />
+    <ClInclude Include="..\ModSecurity\src\actions\transformations\remove_nulls.h" />
+    <ClInclude Include="..\ModSecurity\src\actions\transformations\remove_whitespace.h" />
+    <ClInclude Include="..\ModSecurity\src\actions\transformations\replace_comments.h" />
+    <ClInclude Include="..\ModSecurity\src\actions\transformations\replace_nulls.h" />
+    <ClInclude Include="..\ModSecurity\src\actions\transformations\sha1.h" />
+    <ClInclude Include="..\ModSecurity\src\actions\transformations\sql_hex_decode.h" />
+    <ClInclude Include="..\ModSecurity\src\actions\transformations\transformation.h" />
+    <ClInclude Include="..\ModSecurity\src\actions\transformations\trim.h" />
+    <ClInclude Include="..\ModSecurity\src\actions\transformations\trim_left.h" />
+    <ClInclude Include="..\ModSecurity\src\actions\transformations\trim_right.h" />
+    <ClInclude Include="..\ModSecurity\src\actions\transformations\upper_case.h" />
+    <ClInclude Include="..\ModSecurity\src\actions\transformations\url_decode.h" />
+    <ClInclude Include="..\ModSecurity\src\actions\transformations\url_decode_uni.h" />
+    <ClInclude Include="..\ModSecurity\src\actions\transformations\url_encode.h" />
+    <ClInclude Include="..\ModSecurity\src\actions\transformations\utf8_to_unicode.h" />
+    <ClInclude Include="..\ModSecurity\src\actions\ver.h" />
+    <ClInclude Include="..\ModSecurity\src\actions\xmlns.h" />
+    <ClInclude Include="..\ModSecurity\src\audit_log\writer\https.h" />
+    <ClInclude Include="..\ModSecurity\src\audit_log\writer\parallel.h" />
+    <ClInclude Include="..\ModSecurity\src\audit_log\writer\serial.h" />
+    <ClInclude Include="..\ModSecurity\src\audit_log\writer\writer.h" />
+    <ClInclude Include="..\ModSecurity\src\collection\backend\in_memory-per_process.h" />
+    <ClInclude Include="..\ModSecurity\src\collection\backend\lmdb.h" />
+    <ClInclude Include="..\ModSecurity\src\debug_log\debug_log_writer.h" />
+    <ClInclude Include="..\ModSecurity\src\debug_log_writer_agent.h" />
+    <ClInclude Include="..\ModSecurity\src\engine\lua.h" />
+    <ClInclude Include="..\ModSecurity\src\operators\begins_with.h" />
+    <ClInclude Include="..\ModSecurity\src\operators\contains.h" />
+    <ClInclude Include="..\ModSecurity\src\operators\contains_word.h" />
+    <ClInclude Include="..\ModSecurity\src\operators\detect_sqli.h" />
+    <ClInclude Include="..\ModSecurity\src\operators\detect_xss.h" />
+    <ClInclude Include="..\ModSecurity\src\operators\ends_with.h" />
+    <ClInclude Include="..\ModSecurity\src\operators\eq.h" />
+    <ClInclude Include="..\ModSecurity\src\operators\fuzzy_hash.h" />
+    <ClInclude Include="..\ModSecurity\src\operators\ge.h" />
+    <ClInclude Include="..\ModSecurity\src\operators\geo_lookup.h" />
+    <ClInclude Include="..\ModSecurity\src\operators\gsblookup.h" />
+    <ClInclude Include="..\ModSecurity\src\operators\gt.h" />
+    <ClInclude Include="..\ModSecurity\src\operators\inspect_file.h" />
+    <ClInclude Include="..\ModSecurity\src\operators\ip_match.h" />
+    <ClInclude Include="..\ModSecurity\src\operators\ip_match_f.h" />
+    <ClInclude Include="..\ModSecurity\src\operators\ip_match_from_file.h" />
+    <ClInclude Include="..\ModSecurity\src\operators\le.h" />
+    <ClInclude Include="..\ModSecurity\src\operators\lt.h" />
+    <ClInclude Include="..\ModSecurity\src\operators\no_match.h" />
+    <ClInclude Include="..\ModSecurity\src\operators\operator.h" />
+    <ClInclude Include="..\ModSecurity\src\operators\pm.h" />
+    <ClInclude Include="..\ModSecurity\src\operators\pm_f.h" />
+    <ClInclude Include="..\ModSecurity\src\operators\pm_from_file.h" />
+    <ClInclude Include="..\ModSecurity\src\operators\rbl.h" />
+    <ClInclude Include="..\ModSecurity\src\operators\rsub.h" />
+    <ClInclude Include="..\ModSecurity\src\operators\rx.h" />
+    <ClInclude Include="..\ModSecurity\src\operators\str_eq.h" />
+    <ClInclude Include="..\ModSecurity\src\operators\str_match.h" />
+    <ClInclude Include="..\ModSecurity\src\operators\unconditional_match.h" />
+    <ClInclude Include="..\ModSecurity\src\operators\validate_byte_range.h" />
+    <ClInclude Include="..\ModSecurity\src\operators\validate_dtd.h" />
+    <ClInclude Include="..\ModSecurity\src\operators\validate_hash.h" />
+    <ClInclude Include="..\ModSecurity\src\operators\validate_schema.h" />
+    <ClInclude Include="..\ModSecurity\src\operators\validate_url_encoding.h" />
+    <ClInclude Include="..\ModSecurity\src\operators\validate_utf8_encoding.h" />
+    <ClInclude Include="..\ModSecurity\src\operators\verify_cc.h" />
+    <ClInclude Include="..\ModSecurity\src\operators\verify_cpf.h" />
+    <ClInclude Include="..\ModSecurity\src\operators\verify_ssn.h" />
+    <ClInclude Include="..\ModSecurity\src\operators\within.h" />
+    <ClInclude Include="..\ModSecurity\src\parser\driver.h" />
+    <ClInclude Include="..\ModSecurity\src\parser\location.hh" />
+    <ClInclude Include="..\ModSecurity\src\parser\position.hh" />
+    <ClInclude Include="..\ModSecurity\src\parser\seclang-parser.hh" />
+    <ClInclude Include="..\ModSecurity\src\parser\stack.hh" />
+    <ClInclude Include="..\ModSecurity\src\request_body_processor\json.h" />
+    <ClInclude Include="..\ModSecurity\src\request_body_processor\multipart.h" />
+    <ClInclude Include="..\ModSecurity\src\request_body_processor\xml.h" />
+    <ClInclude Include="..\ModSecurity\src\utils\acmp.h" />
+    <ClInclude Include="..\ModSecurity\src\utils\base64.h" />
+    <ClInclude Include="..\ModSecurity\src\utils\decode.h" />
+    <ClInclude Include="..\ModSecurity\src\utils\geo_lookup.h" />
+    <ClInclude Include="..\ModSecurity\src\utils\https_client.h" />
+    <ClInclude Include="..\ModSecurity\src\utils\ip_tree.h" />
+    <ClInclude Include="..\ModSecurity\src\utils\md5.h" />
+    <ClInclude Include="..\ModSecurity\src\utils\msc_tree.h" />
+    <ClInclude Include="..\ModSecurity\src\utils\phase.h" />
+    <ClInclude Include="..\ModSecurity\src\utils\random.h" />
+    <ClInclude Include="..\ModSecurity\src\utils\regex.h" />
+    <ClInclude Include="..\ModSecurity\src\utils\sha1.h" />
+    <ClInclude Include="..\ModSecurity\src\utils\shared_files.h" />
+    <ClInclude Include="..\ModSecurity\src\utils\string.h" />
+    <ClInclude Include="..\ModSecurity\src\utils\system.h" />
+    <ClInclude Include="..\ModSecurity\src\variables\args.h" />
+    <ClInclude Include="..\ModSecurity\src\variables\args_combined_size.h" />
+    <ClInclude Include="..\ModSecurity\src\variables\args_get.h" />
+    <ClInclude Include="..\ModSecurity\src\variables\args_get_names.h" />
+    <ClInclude Include="..\ModSecurity\src\variables\args_names.h" />
+    <ClInclude Include="..\ModSecurity\src\variables\args_post.h" />
+    <ClInclude Include="..\ModSecurity\src\variables\args_post_names.h" />
+    <ClInclude Include="..\ModSecurity\src\variables\auth_type.h" />
+    <ClInclude Include="..\ModSecurity\src\variables\duration.h" />
+    <ClInclude Include="..\ModSecurity\src\variables\env.h" />
+    <ClInclude Include="..\ModSecurity\src\variables\files.h" />
+    <ClInclude Include="..\ModSecurity\src\variables\files_combined_size.h" />
+    <ClInclude Include="..\ModSecurity\src\variables\files_names.h" />
+    <ClInclude Include="..\ModSecurity\src\variables\files_sizes.h" />
+    <ClInclude Include="..\ModSecurity\src\variables\files_tmp_content.h" />
+    <ClInclude Include="..\ModSecurity\src\variables\files_tmp_names.h" />
+    <ClInclude Include="..\ModSecurity\src\variables\full_request.h" />
+    <ClInclude Include="..\ModSecurity\src\variables\full_request_length.h" />
+    <ClInclude Include="..\ModSecurity\src\variables\geo.h" />
+    <ClInclude Include="..\ModSecurity\src\variables\global.h" />
+    <ClInclude Include="..\ModSecurity\src\variables\highest_severity.h" />
+    <ClInclude Include="..\ModSecurity\src\variables\inbound_data_error.h" />
+    <ClInclude Include="..\ModSecurity\src\variables\ip.h" />
+    <ClInclude Include="..\ModSecurity\src\variables\matched_var.h" />
+    <ClInclude Include="..\ModSecurity\src\variables\matched_vars.h" />
+    <ClInclude Include="..\ModSecurity\src\variables\matched_vars_names.h" />
+    <ClInclude Include="..\ModSecurity\src\variables\matched_var_name.h" />
+    <ClInclude Include="..\ModSecurity\src\variables\modsec_build.h" />
+    <ClInclude Include="..\ModSecurity\src\variables\multipart_boundary_quoted.h" />
+    <ClInclude Include="..\ModSecurity\src\variables\multipart_boundary_whitespace.h" />
+    <ClInclude Include="..\ModSecurity\src\variables\multipart_crlf_lf_lines.h" />
+    <ClInclude Include="..\ModSecurity\src\variables\multipart_data_after.h" />
+    <ClInclude Include="..\ModSecurity\src\variables\multipart_data_before.h" />
+    <ClInclude Include="..\ModSecurity\src\variables\multipart_file_limit_exceeded.h" />
+    <ClInclude Include="..\ModSecurity\src\variables\multipart_file_name.h" />
+    <ClInclude Include="..\ModSecurity\src\variables\multipart_header_folding.h" />
+    <ClInclude Include="..\ModSecurity\src\variables\multipart_invalid_header_folding.h" />
+    <ClInclude Include="..\ModSecurity\src\variables\multipart_invalid_part.h" />
+    <ClInclude Include="..\ModSecurity\src\variables\multipart_invalid_quoting.h" />
+    <ClInclude Include="..\ModSecurity\src\variables\multipart_lf_line.h" />
+    <ClInclude Include="..\ModSecurity\src\variables\multipart_missing_semicolon.h" />
+    <ClInclude Include="..\ModSecurity\src\variables\multipart_name.h" />
+    <ClInclude Include="..\ModSecurity\src\variables\multipart_strict_error.h" />
+    <ClInclude Include="..\ModSecurity\src\variables\multipart_unmatched_boundary.h" />
+    <ClInclude Include="..\ModSecurity\src\variables\outbound_data_error.h" />
+    <ClInclude Include="..\ModSecurity\src\variables\path_info.h" />
+    <ClInclude Include="..\ModSecurity\src\variables\query_string.h" />
+    <ClInclude Include="..\ModSecurity\src\variables\remote_addr.h" />
+    <ClInclude Include="..\ModSecurity\src\variables\remote_host.h" />
+    <ClInclude Include="..\ModSecurity\src\variables\remote_port.h" />
+    <ClInclude Include="..\ModSecurity\src\variables\remote_user.h" />
+    <ClInclude Include="..\ModSecurity\src\variables\reqbody_error.h" />
+    <ClInclude Include="..\ModSecurity\src\variables\reqbody_error_msg.h" />
+    <ClInclude Include="..\ModSecurity\src\variables\reqbody_processor.h" />
+    <ClInclude Include="..\ModSecurity\src\variables\reqbody_processor_error.h" />
+    <ClInclude Include="..\ModSecurity\src\variables\reqbody_processor_error_msg.h" />
+    <ClInclude Include="..\ModSecurity\src\variables\request_base_name.h" />
+    <ClInclude Include="..\ModSecurity\src\variables\request_body.h" />
+    <ClInclude Include="..\ModSecurity\src\variables\request_body_length.h" />
+    <ClInclude Include="..\ModSecurity\src\variables\request_cookies.h" />
+    <ClInclude Include="..\ModSecurity\src\variables\request_cookies_names.h" />
+    <ClInclude Include="..\ModSecurity\src\variables\request_file_name.h" />
+    <ClInclude Include="..\ModSecurity\src\variables\request_headers.h" />
+    <ClInclude Include="..\ModSecurity\src\variables\request_headers_names.h" />
+    <ClInclude Include="..\ModSecurity\src\variables\request_line.h" />
+    <ClInclude Include="..\ModSecurity\src\variables\request_method.h" />
+    <ClInclude Include="..\ModSecurity\src\variables\request_protocol.h" />
+    <ClInclude Include="..\ModSecurity\src\variables\request_uri.h" />
+    <ClInclude Include="..\ModSecurity\src\variables\request_uri_raw.h" />
+    <ClInclude Include="..\ModSecurity\src\variables\resource.h" />
+    <ClInclude Include="..\ModSecurity\src\variables\response_body.h" />
+    <ClInclude Include="..\ModSecurity\src\variables\response_content_length.h" />
+    <ClInclude Include="..\ModSecurity\src\variables\response_content_type.h" />
+    <ClInclude Include="..\ModSecurity\src\variables\response_headers.h" />
+    <ClInclude Include="..\ModSecurity\src\variables\response_headers_names.h" />
+    <ClInclude Include="..\ModSecurity\src\variables\response_protocol.h" />
+    <ClInclude Include="..\ModSecurity\src\variables\response_status.h" />
+    <ClInclude Include="..\ModSecurity\src\variables\rule.h" />
+    <ClInclude Include="..\ModSecurity\src\variables\server_addr.h" />
+    <ClInclude Include="..\ModSecurity\src\variables\server_name.h" />
+    <ClInclude Include="..\ModSecurity\src\variables\server_port.h" />
+    <ClInclude Include="..\ModSecurity\src\variables\session.h" />
+    <ClInclude Include="..\ModSecurity\src\variables\session_id.h" />
+    <ClInclude Include="..\ModSecurity\src\variables\status.h" />
+    <ClInclude Include="..\ModSecurity\src\variables\time.h" />
+    <ClInclude Include="..\ModSecurity\src\variables\time_day.h" />
+    <ClInclude Include="..\ModSecurity\src\variables\time_epoch.h" />
+    <ClInclude Include="..\ModSecurity\src\variables\time_hour.h" />
+    <ClInclude Include="..\ModSecurity\src\variables\time_min.h" />
+    <ClInclude Include="..\ModSecurity\src\variables\time_mon.h" />
+    <ClInclude Include="..\ModSecurity\src\variables\time_sec.h" />
+    <ClInclude Include="..\ModSecurity\src\variables\time_wday.h" />
+    <ClInclude Include="..\ModSecurity\src\variables\time_year.h" />
+    <ClInclude Include="..\ModSecurity\src\variables\tx.h" />
+    <ClInclude Include="..\ModSecurity\src\variables\unique_id.h" />
+    <ClInclude Include="..\ModSecurity\src\variables\url_encoded_error.h" />
+    <ClInclude Include="..\ModSecurity\src\variables\user.h" />
+    <ClInclude Include="..\ModSecurity\src\variables\user_id.h" />
+    <ClInclude Include="..\ModSecurity\src\variables\variable.h" />
+    <ClInclude Include="..\ModSecurity\src\variables\web_app_id.h" />
+    <ClInclude Include="..\ModSecurity\src\variables\xml.h" />
+    <ClInclude Include="..\ModSecurity\targetver.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="..\ModSecurity\ModSecurity.rc" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
