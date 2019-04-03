@@ -1,0 +1,6 @@
+; ModSecurity.def: declara os parâmetros do módulo para a DLL.
+
+LIBRARY
+
+EXPORTS
+    ; Exportações explícitas podem ir aqui
