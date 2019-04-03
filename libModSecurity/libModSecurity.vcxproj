@@ -77,23 +77,40 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
+    <CustomBuildAfterTargets>BuildCompile</CustomBuildAfterTargets>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
+    <CustomBuildAfterTargets>BuildCompile</CustomBuildAfterTargets>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
+    <CustomBuildAfterTargets>BuildCompile</CustomBuildAfterTargets>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
+    <CustomBuildAfterTargets>BuildCompile</CustomBuildAfterTargets>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <CustomBuildStep>
+
+      <Message>Copy pcre.dll</Message>
+
+      <Command>copy "$(MSBuildProjectDirectory)\..\external\pcre-8.43\pcre.dll" "$(MSBuildProjectDirectory)\..\Debug\."
+copy "$(MSBuildProjectDirectory)\..\external\yajl\build\yajl-2.1.1\lib\Release\yajl.dll" "$(MSBuildProjectDirectory)\..\Debug\."</Command>
+      <Outputs>dlls;pcre.dll
+%(Outputs)</Outputs>
+
+      <Inputs></Inputs>
+
+    </CustomBuildStep>
+
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>MBEDTLS_CONFIG_FILE="mbed-tls-config.h";YY_NO_UNISTD_H;WITH_YAJL</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(MSBuildProjectDirectory)\..\ModSecurity\;$(MSBuildProjectDirectory)\..\ModSecurity\others;$(MSBuildProjectDirectory)\..\ModSecurity\headers;C:\Users\zimmerle\source\repos\ModSecurity\yajl\build\yajl-2.1.1\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(MSBuildProjectDirectory)\..\ModSecurity\;$(MSBuildProjectDirectory)\..\ModSecurity\others;$(MSBuildProjectDirectory)\..\ModSecurity\headers;$(MSBuildProjectDirectory)\..\external\yajl\build\yajl-2.1.1\include;$(MSBuildProjectDirectory)\..\external\pcre-8.43;$(MSBuildProjectDirectory)\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -111,10 +128,10 @@
       <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Lib>
-      <AdditionalDependencies>yajl.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>yajl.lib;pcre.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
     <Lib>
-      <AdditionalLibraryDirectories>C:\Users\zimmerle\source\repos\ModSecurity\yajl\build\yajl-2.1.1\lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(MSBuildProjectDirectory)\..\external\yajl\build\yajl-2.1.1\lib\Release;$(MSBuildProjectDirectory)\..\external\pcre-8.43;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -123,7 +140,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>MBEDTLS_CONFIG_FILE="mbed-tls-config.h";YY_NO_UNISTD_H;WITH_YAJL</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(MSBuildProjectDirectory)\..\ModSecurity\;$(MSBuildProjectDirectory)\..\ModSecurity\others;$(MSBuildProjectDirectory)\..\ModSecurity\headers;C:\Users\zimmerle\source\repos\ModSecurity\yajl\build\yajl-2.1.1\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(MSBuildProjectDirectory)\..\ModSecurity\;$(MSBuildProjectDirectory)\..\ModSecurity\others;$(MSBuildProjectDirectory)\..\ModSecurity\headers;$(MSBuildProjectDirectory)\..\external\yajl\build\yajl-2.1.1\include;$(MSBuildProjectDirectory)\..\external\pcre-8.43;$(MSBuildProjectDirectory)\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -141,10 +158,10 @@
       <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Lib>
-      <AdditionalDependencies>yajl.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>yajl.lib;pcre.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
     <Lib>
-      <AdditionalLibraryDirectories>C:\Users\zimmerle\source\repos\ModSecurity\yajl\build\yajl-2.1.1\lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(MSBuildProjectDirectory)\..\external\yajl\build\yajl-2.1.1\lib\Release;$(MSBuildProjectDirectory)\..\external\pcre-8.43;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -155,7 +172,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>MBEDTLS_CONFIG_FILE="mbed-tls-config.h";YY_NO_UNISTD_H;WITH_YAJL</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(MSBuildProjectDirectory)\..\ModSecurity\;$(MSBuildProjectDirectory)\..\ModSecurity\others;$(MSBuildProjectDirectory)\..\ModSecurity\headers;C:\Users\zimmerle\source\repos\ModSecurity\yajl\build\yajl-2.1.1\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(MSBuildProjectDirectory)\..\ModSecurity\;$(MSBuildProjectDirectory)\..\ModSecurity\others;$(MSBuildProjectDirectory)\..\ModSecurity\headers;$(MSBuildProjectDirectory)\..\external\yajl\build\yajl-2.1.1\include;$(MSBuildProjectDirectory)\..\external\pcre-8.43;$(MSBuildProjectDirectory)\</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -176,10 +193,10 @@
       <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Lib>
-      <AdditionalDependencies>yajl.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>yajl.lib;pcre.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
     <Lib>
-      <AdditionalLibraryDirectories>C:\Users\zimmerle\source\repos\ModSecurity\yajl\build\yajl-2.1.1\lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(MSBuildProjectDirectory)\..\external\yajl\build\yajl-2.1.1\lib\Release;$(MSBuildProjectDirectory)\..\external\pcre-8.43;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -190,7 +207,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>MBEDTLS_CONFIG_FILE="mbed-tls-config.h";YY_NO_UNISTD_H;WITH_YAJL</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(MSBuildProjectDirectory)\..\ModSecurity\;$(MSBuildProjectDirectory)\..\ModSecurity\others;$(MSBuildProjectDirectory)\..\ModSecurity\headers;C:\Users\zimmerle\source\repos\ModSecurity\yajl\build\yajl-2.1.1\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(MSBuildProjectDirectory)\..\ModSecurity\;$(MSBuildProjectDirectory)\..\ModSecurity\others;$(MSBuildProjectDirectory)\..\ModSecurity\headers;$(MSBuildProjectDirectory)\..\external\yajl\build\yajl-2.1.1\include;$(MSBuildProjectDirectory)\..\external\pcre-8.43;$(MSBuildProjectDirectory)\</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -211,10 +228,10 @@
       <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Lib>
-      <AdditionalDependencies>yajl.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>yajl.lib;pcre.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
     <Lib>
-      <AdditionalLibraryDirectories>C:\Users\zimmerle\source\repos\ModSecurity\yajl\build\yajl-2.1.1\lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(MSBuildProjectDirectory)\..\external\yajl\build\yajl-2.1.1\lib\Release;$(MSBuildProjectDirectory)\..\external\pcre-8.43;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -240,7 +257,6 @@
     <ClCompile Include="..\ModSecurity\src\run_time_string.cc" />
     <ClCompile Include="..\ModSecurity\src\transaction.cc" />
     <ClCompile Include="..\ModSecurity\src\unique_id.cc" />
-    <ClCompile Include="..\ModSecurity\ModSecurity.cpp" />
     <ClCompile Include="..\ModSecurity\src\actions\accuracy.cc">
       <ObjectFileName>$(IntDir)actions\</ObjectFileName>
     </ClCompile>
@@ -692,8 +708,8 @@
     <ClCompile Include="..\ModSecurity\src\variables\xml.cc" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\ModSecurity\ModSecurity.def" />
-    <None Include="..\ModSecurity\res\ModSecurity.rc2" />
+    <None Include="ModSecurity.def" />
+    <None Include="ModSecurity.rc2" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ModSecurity\others\libinjection\src\libinjection.h" />
@@ -984,7 +1000,7 @@
     <ClInclude Include="..\ModSecurity\targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="..\ModSecurity\ModSecurity.rc" />
+    <ResourceCompile Include="ModSecurity.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

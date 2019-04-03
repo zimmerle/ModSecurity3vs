@@ -84,6 +84,18 @@
     <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <CustomBuildStep>
+
+      <Message>Copy regression.bat</Message>
+
+      <Command>copy "$(MSBuildProjectDirectory)\regression.bat" "$(MSBuildProjectDirectory)\..\Debug\."</Command>
+      <Outputs>dlls;regression.bat
+%(Outputs)</Outputs>
+
+      <Inputs></Inputs>
+
+    </CustomBuildStep>
+
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
@@ -92,14 +104,14 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions);WITH_YAJL</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>C:\Users\zimmerle\source\repos\ModSecurity\ModSecurity;C:\Users\zimmerle\source\repos\ModSecurity\ModSecurity\others;C:\Users\zimmerle\source\repos\ModSecurity\ModSecurity\headers;C:\Users\zimmerle\source\repos\ModSecurity\yajl\build\yajl-2.1.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <AdditionalIncludeDirectories>$(MSBuildProjectDirectory)\..\ModSecurity\;$(MSBuildProjectDirectory)\..\ModSecurity\others;$(MSBuildProjectDirectory)\..\ModSecurity\headers;$(MSBuildProjectDirectory)\..\external\yajl\build\yajl-2.1.1\include;$(MSBuildProjectDirectory)\..\external\pcre-8.43;$(MSBuildProjectDirectory)\;$(MSBuildProjectDirectory)\..\libModSecurity</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>C:\Users\zimmerle\source\repos\ModSecurity\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>yajl.lib;pcre.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(MSBuildProjectDirectory)\..\Debug;$(MSBuildProjectDirectory)\..\external\yajl\build\yajl-2.1.1\lib\Release;$(MSBuildProjectDirectory)\..\external\pcre-8.43;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -111,14 +123,14 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions);WITH_YAJL</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>C:\Users\zimmerle\source\repos\ModSecurity\ModSecurity;C:\Users\zimmerle\source\repos\ModSecurity\ModSecurity\others;C:\Users\zimmerle\source\repos\ModSecurity\ModSecurity\headers;C:\Users\zimmerle\source\repos\ModSecurity\yajl\build\yajl-2.1.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <AdditionalIncludeDirectories>$(MSBuildProjectDirectory)\..\ModSecurity\;$(MSBuildProjectDirectory)\..\ModSecurity\others;$(MSBuildProjectDirectory)\..\ModSecurity\headers;$(MSBuildProjectDirectory)\..\external\yajl\build\yajl-2.1.1\include;$(MSBuildProjectDirectory)\..\external\pcre-8.43;$(MSBuildProjectDirectory)\;$(MSBuildProjectDirectory)\..\libModSecurity</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>C:\Users\zimmerle\source\repos\ModSecurity\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>yajl.lib;pcre.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(MSBuildProjectDirectory)\..\Debug;$(MSBuildProjectDirectory)\..\external\yajl\build\yajl-2.1.1\lib\Release;$(MSBuildProjectDirectory)\..\external\pcre-8.43;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -132,16 +144,16 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions);WITH_YAJL</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>C:\Users\zimmerle\source\repos\ModSecurity\ModSecurity;C:\Users\zimmerle\source\repos\ModSecurity\ModSecurity\others;C:\Users\zimmerle\source\repos\ModSecurity\ModSecurity\headers;C:\Users\zimmerle\source\repos\ModSecurity\yajl\build\yajl-2.1.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <AdditionalIncludeDirectories>$(MSBuildProjectDirectory)\..\ModSecurity\;$(MSBuildProjectDirectory)\..\ModSecurity\others;$(MSBuildProjectDirectory)\..\ModSecurity\headers;$(MSBuildProjectDirectory)\..\external\yajl\build\yajl-2.1.1\include;$(MSBuildProjectDirectory)\..\external\pcre-8.43;$(MSBuildProjectDirectory)\;$(MSBuildProjectDirectory)\..\libModSecurity</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>C:\Users\zimmerle\source\repos\ModSecurity\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>yajl.lib;pcre.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(MSBuildProjectDirectory)\..\Debug;$(MSBuildProjectDirectory)\..\external\yajl\build\yajl-2.1.1\lib\Release;$(MSBuildProjectDirectory)\..\external\pcre-8.43;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -155,23 +167,22 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions);WITH_YAJL</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>C:\Users\zimmerle\source\repos\ModSecurity\ModSecurity;C:\Users\zimmerle\source\repos\ModSecurity\ModSecurity\others;C:\Users\zimmerle\source\repos\ModSecurity\ModSecurity\headers;C:\Users\zimmerle\source\repos\ModSecurity\yajl\build\yajl-2.1.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <AdditionalIncludeDirectories>$(MSBuildProjectDirectory)\..\ModSecurity\;$(MSBuildProjectDirectory)\..\ModSecurity\others;$(MSBuildProjectDirectory)\..\ModSecurity\headers;$(MSBuildProjectDirectory)\..\external\yajl\build\yajl-2.1.1\include;$(MSBuildProjectDirectory)\..\external\pcre-8.43;$(MSBuildProjectDirectory)\;$(MSBuildProjectDirectory)\..\libModSecurity</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>C:\Users\zimmerle\source\repos\ModSecurity\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>yajl.lib;pcre.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(MSBuildProjectDirectory)\..\Debug;$(MSBuildProjectDirectory)\..\external\yajl\build\yajl-2.1.1\lib\Release;$(MSBuildProjectDirectory)\..\external\pcre-8.43;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\ModSecurity\others\dirent.h" />
     <ClInclude Include="..\ModSecurity\test\regression\custom_debug_log.h" />
     <ClInclude Include="..\ModSecurity\test\regression\regression_test.h" />
-    <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\ModSecurity\test\regression\custom_debug_log.cc" />
