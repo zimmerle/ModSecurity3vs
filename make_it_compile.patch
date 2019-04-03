@@ -1,0 +1,1249 @@
+diff --git a/src/actions/transformations/hex_encode.cc b/src/actions/transformations/hex_encode.cc
+index 51f30995..d59d81fd 100644
+--- a/src/actions/transformations/hex_encode.cc
++++ b/src/actions/transformations/hex_encode.cc
+@@ -41,7 +41,11 @@ std::string HexEncode::evaluate(std::string value,
+ 
+     std::stringstream result;
+     for (std::size_t i=0; i < value.length(); i++) {
++#if 1
++		int ii = value[i];
++#else
+         int ii = reinterpret_cast<char>(value[i]);
++#endif
+         result << std::setw(2) << std::setfill('0') << std::hex << ii;
+     }
+ 
+diff --git a/src/actions/transformations/html_entity_decode.cc b/src/actions/transformations/html_entity_decode.cc
+index ed119856..844be3d2 100644
+--- a/src/actions/transformations/html_entity_decode.cc
++++ b/src/actions/transformations/html_entity_decode.cc
+@@ -26,7 +26,7 @@
+ 
+ #include "modsecurity/transaction.h"
+ #include "src/actions/transformations/transformation.h"
+-
++#include "src/config.h"
+ 
+ namespace modsecurity {
+ namespace actions {
+diff --git a/src/actions/transformations/lower_case.cc b/src/actions/transformations/lower_case.cc
+index 8dd0bcae..3b460d7f 100644
+--- a/src/actions/transformations/lower_case.cc
++++ b/src/actions/transformations/lower_case.cc
+@@ -17,6 +17,7 @@
+ 
+ #include <algorithm>
+ #include <string>
++#include <cctype>
+ 
+ #include "modsecurity/transaction.h"
+ #include "src/actions/transformations/transformation.h"
+@@ -33,10 +34,16 @@ LowerCase::LowerCase(std::string a)
+ 
+ std::string LowerCase::evaluate(std::string value,
+     Transaction *transaction) {
++#ifndef _WIN32
+     std::locale loc;
++#endif
+ 
+     for (std::string::size_type i=0; i < value.length(); ++i) {
+-        value[i] = std::tolower(value[i], loc);
++#ifdef _WIN32 
++        value[i] = std::tolower(value[i]);
++#else
++		value[i] = std::tolower(value[i], loc);
++#endif
+     }
+ 
+     return value;
+diff --git a/src/actions/transformations/upper_case.cc b/src/actions/transformations/upper_case.cc
+index ff082e8e..faf12d48 100644
+--- a/src/actions/transformations/upper_case.cc
++++ b/src/actions/transformations/upper_case.cc
+@@ -17,6 +17,7 @@
+ 
+ #include <algorithm>
+ #include <string>
++#include <cctype>
+ 
+ #include "modsecurity/transaction.h"
+ #include "src/actions/transformations/transformation.h"
+@@ -33,10 +34,16 @@ UpperCase::UpperCase(std::string a)
+ 
+ std::string UpperCase::evaluate(std::string value,
+     Transaction *transaction) {
++#ifndef _WIN32
+     std::locale loc;
++#endif
+ 
+     for (std::string::size_type i=0; i < value.length(); ++i) {
+-        value[i] = std::toupper(value[i], loc);
++#ifdef _WIN32
++        value[i] = std::toupper(value[i]);
++#else
++		value[i] = std::toupper(value[i], loc);
++#endif
+     }
+ 
+     return value;
+diff --git a/src/audit_log/writer/parallel.cc b/src/audit_log/writer/parallel.cc
+index bba7b284..c228a019 100644
+--- a/src/audit_log/writer/parallel.cc
++++ b/src/audit_log/writer/parallel.cc
+@@ -21,7 +21,7 @@
+ #include <sys/types.h>
+ #include <sys/stat.h>
+ #include <fcntl.h>
+-#include <unistd.h>
++//#include <unistd.h>
+ #include <stdlib.h>
+ 
+ #include <fstream>
+@@ -49,8 +49,9 @@ inline std::string Parallel::logFilePath(time_t *t,
+     struct tm timeinfo;
+     char tstr[300];
+     std::string name("");
+-
++#if 0
+     localtime_r(t, &timeinfo);
++#endif
+ 
+     if (part & YearMonthDayDirectory) {
+         memset(tstr, '\0', 300);
+@@ -102,6 +103,7 @@ bool Parallel::init(std::string *error) {
+ 
+ 
+ bool Parallel::write(Transaction *transaction, int parts, std::string *error) {
++#if 0
+     int fd;
+     std::string log;
+     std::string fileName = logFilePath(&transaction->m_timeStamp,
+@@ -187,7 +189,7 @@ bool Parallel::write(Transaction *transaction, int parts, std::string *error) {
+             return false;
+         }
+     }
+-
++#endif
+     return true;
+ }
+ 
+diff --git a/src/audit_log/writer/writer.h b/src/audit_log/writer/writer.h
+index a83c7e28..e1706de4 100644
+--- a/src/audit_log/writer/writer.h
++++ b/src/audit_log/writer/writer.h
+@@ -18,8 +18,8 @@
+ 
+ 
+ #include <stdio.h>
+-#include <sys/ipc.h>
+-#include <sys/shm.h>
++//#include <sys/ipc.h>
++//#include <sys/shm.h>
+ #include <sys/types.h>
+ 
+ #include <iostream>
+diff --git a/src/collection/backend/in_memory-per_process.cc b/src/collection/backend/in_memory-per_process.cc
+index 9f13fa58..9d5d2f90 100644
+--- a/src/collection/backend/in_memory-per_process.cc
++++ b/src/collection/backend/in_memory-per_process.cc
+@@ -24,7 +24,7 @@
+ #include <memory>
+ #endif
+ 
+-#include <pthread.h>
++//#include <pthread.h>
+ 
+ #include "modsecurity/variable_value.h"
+ #include "src/utils/regex.h"
+@@ -39,18 +39,20 @@ namespace backend {
+ InMemoryPerProcess::InMemoryPerProcess(std::string name) :
+     Collection(name) {
+     this->reserve(1000);
+-    pthread_mutex_init(&m_lock, NULL);
++    //pthread_mutex_init(&m_lock, NULL);
+ }
+ 
+ InMemoryPerProcess::~InMemoryPerProcess() {
+     this->clear();
+-    pthread_mutex_destroy(&m_lock);
++    //pthread_mutex_destroy(&m_lock);
+ }
+ 
+ void InMemoryPerProcess::store(std::string key, std::string value) {
++#if 0
+     pthread_mutex_lock(&m_lock);
+     this->emplace(key, value);
+     pthread_mutex_unlock(&m_lock);
++#endif
+ }
+ 
+ 
+@@ -65,6 +67,7 @@ bool InMemoryPerProcess::storeOrUpdateFirst(const std::string &key,
+ 
+ bool InMemoryPerProcess::updateFirst(const std::string &key,
+     const std::string &value) {
++#if 0
+     pthread_mutex_lock(&m_lock);
+     auto range = this->equal_range(key);
+ 
+@@ -74,14 +77,17 @@ bool InMemoryPerProcess::updateFirst(const std::string &key,
+         return true;
+     }
+     pthread_mutex_unlock(&m_lock);
++#endif
+     return false;
+ }
+ 
+ 
+ void InMemoryPerProcess::del(const std::string& key) {
++#if 0
+     pthread_mutex_lock(&m_lock);
+     this->erase(key);
+     pthread_mutex_unlock(&m_lock);
++#endif
+ }
+ 
+ 
+diff --git a/src/collection/backend/in_memory-per_process.h b/src/collection/backend/in_memory-per_process.h
+index c6c3bf76..786d14f9 100644
+--- a/src/collection/backend/in_memory-per_process.h
++++ b/src/collection/backend/in_memory-per_process.h
+@@ -96,7 +96,7 @@ class InMemoryPerProcess :
+         Variables::KeyExclusions &ke) override;
+ 
+  private:
+-    pthread_mutex_t m_lock;
++//    pthread_mutex_t m_lock;
+ };
+ 
+ }  // namespace backend
+diff --git a/src/collection/backend/lmdb.cc b/src/collection/backend/lmdb.cc
+index 2b8724c7..fa49708e 100644
+--- a/src/collection/backend/lmdb.cc
++++ b/src/collection/backend/lmdb.cc
+@@ -17,7 +17,7 @@
+ #include "src/collection/backend/lmdb.h"
+ 
+ #include <sys/types.h>
+-#include <unistd.h>
++//#include <unistd.h>
+ 
+ #include <string>
+ #include <memory>
+diff --git a/src/collection/backend/lmdb.h b/src/collection/backend/lmdb.h
+index 51c91895..95e9e60f 100644
+--- a/src/collection/backend/lmdb.h
++++ b/src/collection/backend/lmdb.h
+@@ -32,7 +32,7 @@
+ #include <sys/stat.h>
+ #include <sys/types.h>
+ #include <fcntl.h>
+-#include <pthread.h>
++//#include <pthread.h>
+ 
+ #include "modsecurity/variable_value.h"
+ #include "modsecurity/collection/collection.h"
+diff --git a/src/debug_log/debug_log_writer.cc b/src/debug_log/debug_log_writer.cc
+index 1ae8e94a..96f2f2a7 100644
+--- a/src/debug_log/debug_log_writer.cc
++++ b/src/debug_log/debug_log_writer.cc
+@@ -17,13 +17,13 @@
+ 
+ #include <errno.h>
+ #include <fcntl.h>
+-#include <pthread.h>
++//#include <pthread.h>
+ #include <stdio.h>
+-#include <sys/ipc.h>
+-#include <sys/shm.h>
++//#include <sys/ipc.h>
++//#include <sys/shm.h>
+ #include <sys/stat.h>
+ #include <sys/types.h>
+-#include <unistd.h>
++//#include <unistd.h>
+ 
+ #include <fstream>
+ 
+diff --git a/src/debug_log/debug_log_writer.h b/src/debug_log/debug_log_writer.h
+index 0fdba01b..a3a296ca 100644
+--- a/src/debug_log/debug_log_writer.h
++++ b/src/debug_log/debug_log_writer.h
+@@ -14,8 +14,8 @@
+  */
+ 
+ #include <stdio.h>
+-#include <sys/ipc.h>
+-#include <sys/shm.h>
++//#include <sys/ipc.h>
++//#include <sys/shm.h>
+ #include <sys/types.h>
+ 
+ #include <iostream>
+diff --git a/src/modsecurity.cc b/src/modsecurity.cc
+index ab9bba2e..690bcd1f 100644
+--- a/src/modsecurity.cc
++++ b/src/modsecurity.cc
+@@ -15,7 +15,7 @@
+ 
+ 
+ #include "modsecurity/modsecurity.h"
+-#include "src/config.h"
++//#include "src/config.h"
+ 
+ #ifdef WITH_YAJL
+ #include <yajl/yajl_tree.h>
+diff --git a/src/operators/inspect_file.cc b/src/operators/inspect_file.cc
+index a72db488..bad3fe3b 100644
+--- a/src/operators/inspect_file.cc
++++ b/src/operators/inspect_file.cc
+@@ -50,6 +50,7 @@ bool InspectFile::init(const std::string &param2, std::string *error) {
+ 
+ 
+ bool InspectFile::evaluate(Transaction *transaction, const std::string &str) {
++#if 0
+     if (m_isScript) {
+         return m_lua.run(transaction);
+     } else {
+@@ -80,6 +81,8 @@ bool InspectFile::evaluate(Transaction *transaction, const std::string &str) {
+         /* no match */
+         return false;
+     }
++#endif
++	return true;
+ }
+ 
+ 
+diff --git a/src/operators/rbl.cc b/src/operators/rbl.cc
+index 5cf794d9..d60f27ca 100644
+--- a/src/operators/rbl.cc
++++ b/src/operators/rbl.cc
+@@ -17,10 +17,10 @@
+ 
+ #include <modsecurity/rules.h>
+ #include <sys/types.h>
+-#include <sys/socket.h>
+-#include <netdb.h>
+-#include <netinet/in.h>
+-#include <arpa/inet.h>
++//#include <sys/socket.h>
++//#include <netdb.h>
++//#include <netinet/in.h>
++//#include <arpa/inet.h>
+ 
+ #include <string>
+ 
+@@ -72,7 +72,7 @@ void Rbl::futherInfo_httpbl(struct sockaddr_in *sin, std::string ipStr,
+     char *respBl;
+     int first, days, score, type;
+     std::string ptype;
+-
++#if 0
+     respBl = inet_ntoa(sin->sin_addr);
+ 
+     if (sscanf(respBl, "%d.%d.%d.%d", &first, &days, &score, &type) != 4) {
+@@ -118,6 +118,7 @@ void Rbl::futherInfo_httpbl(struct sockaddr_in *sin, std::string ipStr,
+         + std::to_string(days) + " " \
+         "days since last activity, threat score " \
+         + std::to_string(score) +  ". Case: " + ptype);
++#endif
+ }
+ 
+ 
+@@ -177,6 +178,7 @@ void Rbl::futherInfo_uribl(unsigned int high8bits, std::string ipStr,
+ 
+ void Rbl::furtherInfo(struct sockaddr_in *sin, std::string ipStr,
+     Transaction *trans) {
++#if 0
+     unsigned int high8bits = sin->sin_addr.s_addr >> 24;
+ 
+     switch (m_provider) {
+@@ -193,12 +195,14 @@ void Rbl::furtherInfo(struct sockaddr_in *sin, std::string ipStr,
+             futherInfo_spamhaus(high8bits, ipStr, trans);
+             break;
+     }
++#endif
+ }
+ 
+ 
+ bool Rbl::evaluate(Transaction *t, Rule *rule,
+         const std::string& ipStr,
+         std::shared_ptr<RuleMessage> ruleMessage) {
++#if 0
+     struct addrinfo *info = NULL;
+     std::string host = mapIpToAddress(ipStr, t);
+     int rc = 0;
+@@ -228,7 +232,7 @@ bool Rbl::evaluate(Transaction *t, Rule *rule,
+         ms_dbg_a(t, 7, "Added RXL match TX.0: " + \
+             std::string(ipStr));
+     }
+-
++#endif
+     return true;
+ }
+ 
+diff --git a/src/operators/rbl.h b/src/operators/rbl.h
+index d7d13ad0..919da650 100644
+--- a/src/operators/rbl.h
++++ b/src/operators/rbl.h
+@@ -17,10 +17,10 @@
+ #define SRC_OPERATORS_RBL_H_
+ 
+ #include <sys/types.h>
+-#include <sys/socket.h>
+-#include <netdb.h>
+-#include <netinet/in.h>
+-#include <arpa/inet.h>
++//#include <sys/socket.h>
++//#include <netdb.h>
++//#include <netinet/in.h>
++//#include <arpa/inet.h>
+ 
+ #include <string>
+ #include <memory>
+diff --git a/src/parser/seclang-parser.hh b/src/parser/seclang-parser.hh
+index e82347db..276d12b7 100644
+--- a/src/parser/seclang-parser.hh
++++ b/src/parser/seclang-parser.hh
+@@ -294,7 +294,6 @@ class Driver;
+ #include "src/variables/session.h"
+ #include "src/variables/status.h"
+ 
+-using modsecurity::ModSecurity;
+ using modsecurity::Rule;
+ using modsecurity::Utils::GeoLookup;
+ using modsecurity::Variables::Duration;
+diff --git a/src/parser/seclang-parser.yy b/src/parser/seclang-parser.yy
+index 55487591..8f9a3c11 100644
+--- a/src/parser/seclang-parser.yy
++++ b/src/parser/seclang-parser.yy
+@@ -256,7 +256,6 @@ class Driver;
+ #include "src/variables/session.h"
+ #include "src/variables/status.h"
+ 
+-using modsecurity::ModSecurity;
+ using modsecurity::Rule;
+ using modsecurity::Utils::GeoLookup;
+ using modsecurity::Variables::Duration;
+diff --git a/src/parser/seclang-scanner.cc b/src/parser/seclang-scanner.cc
+index bfaff535..a0a900d8 100644
+--- a/src/parser/seclang-scanner.cc
++++ b/src/parser/seclang-scanner.cc
+@@ -1,6 +1,8 @@
+ 
+ #line 2 "seclang-scanner.cc"
+-
++#include <stdio.h>
++#include <io.h>
++#define isatty _isatty
+ #define  YY_INT_ALIGNED short int
+ 
+ /* A lexical scanner generated by flex */
+diff --git a/src/request_body_processor/multipart.cc b/src/request_body_processor/multipart.cc
+index 37919128..f584bb98 100644
+--- a/src/request_body_processor/multipart.cc
++++ b/src/request_body_processor/multipart.cc
+@@ -21,7 +21,7 @@
+ #include <sys/types.h>
+ #include <sys/stat.h>
+ #include <fcntl.h>
+-#include <unistd.h>
++//#include <unistd.h>
+ #include <list>
+ #include <iostream>
+ #include <string>
+@@ -69,6 +69,7 @@ Multipart::Multipart(std:: string header, Transaction *transaction)
+ 
+ 
+ Multipart::~Multipart() {
++#if 0
+     ms_dbg_a(m_transaction, 4,
+         "Multipart: Cleanup started (remove files " \
+         + RulesProperties::configBooleanString(
+@@ -115,6 +116,7 @@ Multipart::~Multipart() {
+         delete m_mpp;
+         m_mpp = NULL;
+     }
++#endif
+ }
+ 
+ 
+@@ -407,7 +409,8 @@ int Multipart::tmp_file_name(std::string *filename) const {
+     char tstr[300];
+     char *tmp;
+     int fd;
+-    int mode;
++#if 0
++	int mode;
+     time_t tt = time(NULL);
+ 
+     localtime_r(&tt, &timeinfo);
+@@ -430,12 +433,13 @@ int Multipart::tmp_file_name(std::string *filename) const {
+             return -1;
+         }
+     }
+-
++#endif
+     return fd;
+ }
+ 
+ 
+ int Multipart::process_part_data(std::string *error, size_t offset) {
++#if 0
+     char *p = m_buf + (MULTIPART_BUF_SIZE - m_bufleft);
+     char localreserve[2] = { '\0', '\0' }; /* initialized to quiet warning */
+     int bytes_reserved = 0;
+@@ -625,7 +629,7 @@ int Multipart::process_part_data(std::string *error, size_t offset) {
+         m_buf_offset -= m_reserve[0];
+         m_reserve[0] = 0;
+     }
+-
++#endif
+     return true;
+ }
+ 
+@@ -850,6 +854,7 @@ int Multipart::process_part_header(std::string *error, int offset) {
+ 
+ 
+ int Multipart::process_boundary(int last_part) {
++#if 0
+     /* if there was a part being built finish it */
+     if (m_mpp != NULL) {
+         /* close the temp file */
+@@ -912,7 +917,7 @@ int Multipart::process_boundary(int last_part) {
+         m_reserve[2] = 0;
+         m_reserve[3] = 0;
+     }
+-
++#endif
+     return 1;
+ }
+ 
+@@ -1165,6 +1170,7 @@ int Multipart::count_boundary_params(const std::string& str_header_value) {
+ 
+ 
+ bool Multipart::init(std::string *error) {
++#if 0
+     m_bufleft = MULTIPART_BUF_SIZE;
+     m_bufptr = m_buf;
+     m_buf_contains_line = true;
+@@ -1348,7 +1354,7 @@ bool Multipart::init(std::string *error) {
+         error->assign("Multipart: Boundary not found in C-T.");
+         return false;
+     }
+-
++#endif
+     return 1;
+ }
+ 
+diff --git a/src/rules_properties.cc b/src/rules_properties.cc
+index 78f0e9d1..da17a01b 100644
+--- a/src/rules_properties.cc
++++ b/src/rules_properties.cc
+@@ -84,7 +84,7 @@ void ConfigUnicodeMap::loadConfig(std::string f, double configCodePage,
+ 
+     file_stream.read(buf, length);
+     file_stream.close();
+-
++	/*
+     p = strtok_r(buf, CODEPAGE_SEPARATORS, &savedptr);
+ 
+     while (p != NULL) {
+@@ -121,7 +121,7 @@ void ConfigUnicodeMap::loadConfig(std::string f, double configCodePage,
+ 
+         p = strtok_r(NULL, CODEPAGE_SEPARATORS, &savedptr);
+     }
+-
++	*/
+     delete[] buf;
+ }
+ 
+diff --git a/src/transaction.cc b/src/transaction.cc
+index 693bed6b..a69f0694 100644
+--- a/src/transaction.cc
++++ b/src/transaction.cc
+@@ -749,6 +749,7 @@ int Transaction::processRequestBody() {
+ #if defined(WITH_LIBXML2) or defined(WITH_YAJL)
+     } else if (m_requestBodyType == MultiPartRequestBody) {
+ #else
++		}
+     if (m_requestBodyType == MultiPartRequestBody) {
+ #endif
+         std::string error;
+@@ -892,7 +893,7 @@ int Transaction::requestBodyFromFile(const char *path) {
+     int len = request_body.tellg();
+ 
+     ms_dbg(9, "Adding request body: " + std::to_string(len) + " bytes. " \
+-        "Limit set to: "
++        "Limit set to: " \
+         + std::to_string(this->m_rules->m_requestBodyLimit.m_value));
+ 
+     return appendRequestBody(reinterpret_cast<const unsigned char*>(buf), len);
+@@ -1350,7 +1351,7 @@ std::string Transaction::toOldAuditLogFormatIndex(const std::string &filename,
+     char tstr[300];
+ 
+     memset(tstr, '\0', 300);
+-    localtime_r(&this->m_timeStamp, &timeinfo);
++//    localtime_r(&this->m_timeStamp, &timeinfo);
+ 
+     strftime(tstr, 299, "[%d/%b/%Y:%H:%M:%S %z]", &timeinfo);
+ 
+@@ -1410,7 +1411,7 @@ std::string Transaction::toOldAuditLogFormat(int parts,
+     char tstr[300];
+ 
+     memset(tstr, '\0', 300);
+-    localtime_r(&this->m_timeStamp, &timeinfo);
++//    localtime_r(&this->m_timeStamp, &timeinfo);
+ 
+     audit_log << "--" << trailer << "-" << "A--" << std::endl;
+     strftime(tstr, 299, "[%d/%b/%Y:%H:%M:%S %z]", &timeinfo);
+diff --git a/src/unique_id.cc b/src/unique_id.cc
+index 7334d5a4..47daa06d 100644
+--- a/src/unique_id.cc
++++ b/src/unique_id.cc
+@@ -48,7 +48,7 @@
+ #endif
+ 
+ #include <stdio.h>
+-#include <unistd.h>
++//#include <unistd.h>
+ #include <string.h>
+ 
+ #include "src/utils/sha1.h"
+diff --git a/src/utils/geo_lookup.cc b/src/utils/geo_lookup.cc
+index 313d81ff..bf009f05 100644
+--- a/src/utils/geo_lookup.cc
++++ b/src/utils/geo_lookup.cc
+@@ -13,10 +13,10 @@
+  *
+  */
+ 
+-#include <sys/socket.h>
++//#include <sys/socket.h>
+ #include <sys/types.h>
+-#include <netinet/in.h>
+-#include <arpa/inet.h>
++//#include <netinet/in.h>
++//#include <arpa/inet.h>
+ #include <string>
+ 
+ #include <fstream>
+diff --git a/src/utils/https_client.cc b/src/utils/https_client.cc
+index 5db88a2c..6312e5f0 100644
+--- a/src/utils/https_client.cc
++++ b/src/utils/https_client.cc
+@@ -20,10 +20,10 @@
+ #include <curl/curl.h>
+ #endif
+ 
+-#include <sys/socket.h>
+-#include <sys/types.h>
+-#include <netinet/in.h>
+-#include <arpa/inet.h>
++//#include <sys/socket.h>
++//#include <sys/types.h>
++//#include <netinet/in.h>
++//#include <arpa/inet.h>
+ #include <string>
+ 
+ #include <fstream>
+diff --git a/src/utils/ip_tree.cc b/src/utils/ip_tree.cc
+index 25e06e00..15073918 100644
+--- a/src/utils/ip_tree.cc
++++ b/src/utils/ip_tree.cc
+@@ -15,10 +15,10 @@
+ 
+ #include "src/utils/ip_tree.h"
+ 
+-#include <sys/socket.h>
++//#include <sys/socket.h>
+ #include <sys/types.h>
+-#include <netinet/in.h>
+-#include <arpa/inet.h>
++//#include <netinet/in.h>
++//#include <arpa/inet.h>
+ #include <string>
+ 
+ #include <fstream>
+diff --git a/src/utils/msc_tree.cc b/src/utils/msc_tree.cc
+index 24812242..cea3f2f4 100644
+--- a/src/utils/msc_tree.cc
++++ b/src/utils/msc_tree.cc
+@@ -15,9 +15,9 @@
+ #include <stdio.h>
+ #include <stdlib.h>
+ #include <string.h>
+-#include <sys/socket.h>
+-#include <netinet/in.h>
+-#include <arpa/inet.h>
++//#include <sys/socket.h>
++//#include <netinet/in.h>
++//#include <arpa/inet.h>
+ 
+ #include "src/utils/msc_tree.h"
+ 
+@@ -815,6 +815,7 @@ TreeNode *CPTIpMatch(unsigned char *ipdata, CPTTree *tree, int type)   {
+ }
+ 
+ TreeNode *TreeAddIP(const char *buffer, CPTTree *tree, int type) {
++#if 0
+     unsigned long ip;
+     int ret;
+     unsigned char netmask_v4 = NETMASK_32, netmask_v6 = NETMASK_128;
+@@ -907,7 +908,7 @@ TreeNode *TreeAddIP(const char *buffer, CPTTree *tree, int type) {
+         default:
+             return NULL;
+     }
+-
++#endif
+     return NULL;
+ }
+ 
+@@ -923,6 +924,7 @@ TreeNode *TreeAddIP(const char *buffer, CPTTree *tree, int type) {
+ int tree_contains_ip(TreeRoot *rtree,
+     const char *value, char **error_msg)
+ {
++#if 0
+     struct in_addr in;
+     struct in6_addr in6;
+ 
+@@ -955,7 +957,7 @@ int tree_contains_ip(TreeRoot *rtree,
+             return 1;
+         }
+     }
+-
++#endif
+     
+     return 0;
+ }
+@@ -965,6 +967,7 @@ int tree_contains_ip(TreeRoot *rtree,
+ int add_ip_from_param(
+     const char *param, TreeRoot **rtree, char **error_msg)
+ {
++#if 0
+     char *param_copy = strdup(param);
+     char *saved = NULL;
+     char *str;
+@@ -993,7 +996,7 @@ int add_ip_from_param(
+         str = strtok_r(NULL, ",", &saved);
+     }
+     free(param_copy);
+-
++#endif
+     return 0;
+ }
+ 
+@@ -1001,6 +1004,7 @@ int add_ip_from_param(
+ int ip_tree_from_param(
+     const char *param, TreeRoot **rtree, char **error_msg)
+ {
++#if 0
+     char *param_copy = strdup(param);
+     char *saved = NULL;
+     char *str = NULL;
+@@ -1035,7 +1039,7 @@ int ip_tree_from_param(
+         str = strtok_r(NULL, ",", &saved);
+     }
+     free(param_copy);
+-
++#endif
+     return 0;
+ }
+ 
+@@ -1048,6 +1052,7 @@ int ip_tree_from_param(
+  */
+ unsigned char is_netmask_v4(char *ip_strv4) {
+     unsigned char netmask_v4 = 32;
++#if 0
+     char *mask_str = NULL;
+ 
+     if(ip_strv4 == NULL)
+@@ -1071,7 +1076,7 @@ unsigned char is_netmask_v4(char *ip_strv4) {
+ 
+         netmask_v4 = (unsigned char)cidr;
+     }
+-
++#endif
+     return netmask_v4;
+ }
+ 
+@@ -1082,7 +1087,8 @@ unsigned char is_netmask_v4(char *ip_strv4) {
+  * \retval netmask_v6 On Success
+  */
+ unsigned char is_netmask_v6(char *ip_strv6) {
+-    unsigned char netmask_v6 = 128;
++	unsigned char netmask_v6 = 128;
++#if 0
+     char *mask_str = NULL;
+ 
+     if(ip_strv6 == NULL)
+@@ -1102,13 +1108,14 @@ unsigned char is_netmask_v6(char *ip_strv6) {
+         }
+         netmask_v6 = (unsigned char)cidr;
+     }
+-
++#endif
+     return netmask_v6;
+ }
+ 
+ 
+ int create_radix_tree(TreeRoot **rtree, char **error_msg)
+ {
++#if 0
+     *rtree = reinterpret_cast<TreeRoot *>(malloc(sizeof(TreeRoot)));
+     if (*rtree == NULL)
+     {
+@@ -1139,6 +1146,7 @@ int create_radix_tree(TreeRoot **rtree, char **error_msg)
+ ipv6_tree_failed:
+ ipv4_tree_failed:
+ root_node_failed:
++#endif
+     return -1;
+ }
+ 
+diff --git a/src/utils/regex.cc b/src/utils/regex.cc
+index 461f0288..b4613f68 100644
+--- a/src/utils/regex.cc
++++ b/src/utils/regex.cc
+@@ -16,10 +16,7 @@
+ #include "src/utils/regex.h"
+ 
+ #include <pcre.h>
+-#include <sys/socket.h>
+ #include <sys/types.h>
+-#include <netinet/in.h>
+-#include <arpa/inet.h>
+ #include <string>
+ #include <list>
+ 
+diff --git a/src/utils/shared_files.cc b/src/utils/shared_files.cc
+index 4c76ba3e..248b9590 100644
+--- a/src/utils/shared_files.cc
++++ b/src/utils/shared_files.cc
+@@ -17,13 +17,13 @@
+ 
+ #include <errno.h>
+ #include <fcntl.h>
+-#include <pthread.h>
++//#include <pthread.h>
+ #include <stdio.h>
+-#include <sys/ipc.h>
+-#include <sys/shm.h>
++//#include <sys/ipc.h>
++//#include <sys/shm.h>
+ #include <sys/stat.h>
+ #include <sys/types.h>
+-#include <unistd.h>
++//#include <unistd.h>
+ #include <stdlib.h>
+ #include <string.h>
+ 
+@@ -49,6 +49,7 @@ std::pair<msc_file_handler *, FILE *> SharedFiles::find_handler(
+ 
+ std::pair<msc_file_handler *, FILE *> SharedFiles::add_new_handler(
+     const std::string &fileName, std::string *error) {
++#if 0
+     int shm_id;
+     int ret;
+     key_t mem_key_structure;
+@@ -90,8 +91,8 @@ std::pair<msc_file_handler *, FILE *> SharedFiles::add_new_handler(
+         goto err_shmctl1;
+     }
+ 
+-    new_debug_log = reinterpret_cast<msc_file_handler_t *>(
+-            shmat(shm_id, NULL, 0));
++ //   new_debug_log = reinterpret_cast<msc_file_handler_t *>(
++//            shmat(shm_id, NULL, 0));
+     if ((reinterpret_cast<char *>(new_debug_log)[0]) == -1) {
+         error->assign("Failed to attach shared memory (1): ");
+         error->append(strerror(errno));
+@@ -113,12 +114,13 @@ std::pair<msc_file_handler *, FILE *> SharedFiles::add_new_handler(
+ 
+     return std::make_pair(new_debug_log, fp);
+ err_shmat1:
+-    shmdt(new_debug_log);
++//    shmdt(new_debug_log);
+ err_shmctl1:
+ err_shmget1:
+ err_mem_key:
+     fclose(fp);
+ err_fh:
++#endif
+     return std::pair<modsecurity::utils::msc_file_handler *,
+         FILE *>(NULL, NULL);
+ }
+@@ -157,6 +159,7 @@ out:
+ 
+ void SharedFiles::close(const std::string& fileName) {
+     std::pair<msc_file_handler *, FILE *> a;
++#if 0
+     /* int ret; */
+     /* int shm_id; */
+     /* struct shmid_ds shared_mem_info; */
+@@ -211,6 +214,7 @@ void SharedFiles::close(const std::string& fileName) {
+ out:
+ #if MODSEC_USE_GENERAL_LOCK
+     pthread_mutex_unlock(m_generalLock);
++#endif
+ #endif
+     return;
+ }
+@@ -221,7 +225,7 @@ bool SharedFiles::write(const std::string& fileName,
+     std::pair<msc_file_handler *, FILE *> a;
+     std::string lmsg = msg;
+     size_t wrote;
+-    struct flock lock{};
++    //struct flock lock{};
+     bool ret = true;
+ 
+     a = find_handler(fileName);
+@@ -231,9 +235,9 @@ bool SharedFiles::write(const std::string& fileName,
+     }
+ 
+     //Exclusively lock whole file
+-    lock.l_start = lock.l_len = lock.l_whence = 0;
+-    lock.l_type = F_WRLCK;
+-    fcntl(fileno(a.second), F_SETLKW, &lock);
++    //lock.l_start = lock.l_len = lock.l_whence = 0;
++    //lock.l_type = F_WRLCK;
++    //fcntl(fileno(a.second), F_SETLKW, &lock);
+ 
+     wrote = fwrite(lmsg.c_str(), 1, lmsg.size(), a.second);
+     if (wrote < msg.size()) {
+@@ -243,8 +247,8 @@ bool SharedFiles::write(const std::string& fileName,
+     fflush(a.second);
+ 
+     //Remove exclusive lock
+-    lock.l_type = F_UNLCK;
+-    fcntl(fileno(a.second), F_SETLKW, &lock);
++    //lock.l_type = F_UNLCK;
++//    fcntl(fileno(a.second), F_SETLKW, &lock);
+ 
+     return ret;
+ }
+diff --git a/src/utils/shared_files.h b/src/utils/shared_files.h
+index 47f06d2d..4b9ff9ab 100644
+--- a/src/utils/shared_files.h
++++ b/src/utils/shared_files.h
+@@ -19,15 +19,15 @@
+ 
+ #include <errno.h>
+ #include <fcntl.h>
+-#include <pthread.h>
++//#include <pthread.h>
+ #include <stdio.h>
+ #include <stdlib.h>
+ #include <string.h>
+-#include <sys/ipc.h>
+-#include <sys/shm.h>
++//#include <sys/ipc.h>
++//#include <sys/shm.h>
+ #include <sys/stat.h>
+ #include <sys/types.h>
+-#include <unistd.h>
++//#include <unistd.h>
+ 
+ #include <utility>
+ #include <vector>
+diff --git a/src/utils/string.cc b/src/utils/string.cc
+index 37c20a0d..aee03de2 100644
+--- a/src/utils/string.cc
++++ b/src/utils/string.cc
+@@ -20,7 +20,7 @@
+ #ifdef __OpenBSD__
+ #include <glob.h>
+ #else
+-#include <wordexp.h>
++//#include <wordexp.h>
+ #endif
+ #include <stdint.h>
+ #include <inttypes.h>
+@@ -182,7 +182,7 @@ std::vector<std::string> ssplit(std::string str, char delimiter) {
+     std::vector<std::string> internal;
+     std::stringstream ss(str);  // Turn the string into a stream.
+     std::string tok;
+-    ssize_t n = str.length();
++    size_t n = str.length();
+     int i = 0;
+ 
+     while (getline(ss, tok, delimiter)) {
+diff --git a/src/utils/system.cc b/src/utils/system.cc
+index 730999e9..170c5a4b 100644
+--- a/src/utils/system.cc
++++ b/src/utils/system.cc
+@@ -20,7 +20,7 @@
+ #ifdef __OpenBSD__
+ #include <glob.h>
+ #else
+-#include <wordexp.h>
++//#include <wordexp.h>
+ #endif
+ #include <stdint.h>
+ #include <inttypes.h>
+@@ -49,15 +49,15 @@ double cpu_seconds(void) {
+      * FIXME: Temporary hack to fix build on MacOS X.  Very issuficient way, but
+      *      works.  Worth reimplementing using mach_absolute_time().
+      */
+-#ifndef MACOSX
+-    struct timespec t;
+-    if (!clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &t))
+-        return static_cast<double>(t.tv_sec)
+-            + static_cast<double>(t.tv_nsec / 1000000000.0);
+-    else
+-        return static_cast<double>(clock()) /
+-            static_cast<double>(CLOCKS_PER_SEC);
+-#endif
++//#ifndef MACOSX
++//    struct timespec t;
++//    if (!clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &t))
++//        return static_cast<double>(t.tv_sec)
++//            + static_cast<double>(t.tv_nsec / 1000000000.0);
++//    else
++//        return static_cast<double>(clock()) /
++//            static_cast<double>(CLOCKS_PER_SEC);
++//#endif
+         return 0;
+ }
+ 
+@@ -122,7 +122,7 @@ std::string get_path(const std::string& file) {
+ 
+ std::list<std::string> expandEnv(const std::string& var, int flags) {
+     std::list<std::string> vars;
+-
++	/*
+ #ifdef __OpenBSD__
+     glob_t p;
+     if (glob(var.c_str(), flags, NULL, &p) == false) {
+@@ -148,16 +148,17 @@ std::list<std::string> expandEnv(const std::string& var, int flags) {
+         wordfree(&p);
+ #endif
+     }
++	*/
+     return vars;
+ }
+ 
+ bool createDir(std::string dir, int mode, std::string *error) {
+-    int ret = mkdir(dir.data(), mode);
+-    if (ret != 0 && errno != EEXIST) {
+-        error->assign("Not able to create directory: " + dir + ": " \
+-            + strerror(errno) + ".");
+-        return false;
+-    }
++//    int ret = mkdir(dir.data(), mode);
++    //if (ret != 0 && errno != EEXIST) {
++        //error->assign("Not able to create directory: " + dir + ": " \
++            //+ strerror(errno) + ".");
++      //return false;
++    //}/
+ 
+     return true;
+ }
+@@ -170,10 +171,10 @@ bool isFile(std::string f) {
+         return false;
+     }
+     fstat(fileno(fp), &fileInfo);
+-    if (!S_ISREG(fileInfo.st_mode)) {
+-        fclose(fp);
+-        return false;
+-    }
++//    if (!S_ISREG(fileInfo.st_mode)) {
++        //fclose(fp);
++        //return false;
++    //}
+     fclose(fp);
+ 
+     return true;
+diff --git a/src/variables/time.cc b/src/variables/time.cc
+index 5aeed2c4..82fd3e1a 100644
+--- a/src/variables/time.cc
++++ b/src/variables/time.cc
+@@ -44,7 +44,7 @@ void Time::evaluate(Transaction *transaction,
+     time(&timer);
+     memset(tstr, '\0', 200);
+ 
+-    localtime_r(&timer, &timeinfo);
++    //localtime_r(&timer, &timeinfo);
+     strftime(tstr, 200, "%H:%M:%S", &timeinfo);
+ 
+     transaction->m_variableTime.assign(tstr);
+diff --git a/src/variables/time_day.cc b/src/variables/time_day.cc
+index f019903f..114c663a 100644
+--- a/src/variables/time_day.cc
++++ b/src/variables/time_day.cc
+@@ -43,7 +43,7 @@ void TimeDay::evaluate(Transaction *transaction,
+     time(&timer);
+     memset(tstr, '\0', 200);
+ 
+-    localtime_r(&timer, &timeinfo);
++	// localtime_r(&timer, &timeinfo);
+     strftime(tstr, 200, "%d", &timeinfo);
+ 
+     transaction->m_variableTimeDay.assign(tstr);
+diff --git a/src/variables/time_hour.cc b/src/variables/time_hour.cc
+index 9674d1ce..4733d7cb 100644
+--- a/src/variables/time_hour.cc
++++ b/src/variables/time_hour.cc
+@@ -43,7 +43,7 @@ void TimeHour::evaluate(Transaction *transaction,
+     time(&timer);
+     memset(tstr, '\0', 200);
+ 
+-    localtime_r(&timer, &timeinfo);
++    //localtime_r(&timer, &timeinfo);
+     strftime(tstr, 200, "%H", &timeinfo);
+ 
+     transaction->m_variableTimeHour.assign(tstr);
+diff --git a/src/variables/time_min.cc b/src/variables/time_min.cc
+index a6dbb7ac..baccc068 100644
+--- a/src/variables/time_min.cc
++++ b/src/variables/time_min.cc
+@@ -43,7 +43,7 @@ void TimeMin::evaluate(Transaction *transaction,
+     time(&timer);
+     memset(tstr, '\0', 200);
+ 
+-    localtime_r(&timer, &timeinfo);
++    //localtime_r(&timer, &timeinfo);
+     strftime(tstr, 200, "%M", &timeinfo);
+ 
+     transaction->m_variableTimeMin.assign(tstr);
+diff --git a/src/variables/time_mon.cc b/src/variables/time_mon.cc
+index 689cfe26..f954263a 100644
+--- a/src/variables/time_mon.cc
++++ b/src/variables/time_mon.cc
+@@ -43,7 +43,7 @@ void TimeMon::evaluate(Transaction *transaction,
+     time(&timer);
+     memset(tstr, '\0', 200);
+ 
+-    localtime_r(&timer, &timeinfo);
++    //localtime_r(&timer, &timeinfo);
+     strftime(tstr, 200, "%m", &timeinfo);
+     int a = atoi(tstr);
+     a--;
+diff --git a/src/variables/time_sec.cc b/src/variables/time_sec.cc
+index c8e3b4b0..0652e6e8 100644
+--- a/src/variables/time_sec.cc
++++ b/src/variables/time_sec.cc
+@@ -43,7 +43,7 @@ void TimeSec::evaluate(Transaction *transaction,
+     time(&timer);
+     memset(tstr, '\0', 200);
+ 
+-    localtime_r(&timer, &timeinfo);
++    //localtime_r(&timer, &timeinfo);
+     strftime(tstr, 200, "%S", &timeinfo);
+ 
+     transaction->m_variableTimeSec.assign(tstr);
+diff --git a/src/variables/time_wday.cc b/src/variables/time_wday.cc
+index ef8db612..e56dff8c 100644
+--- a/src/variables/time_wday.cc
++++ b/src/variables/time_wday.cc
+@@ -43,7 +43,7 @@ void TimeWDay::evaluate(Transaction *transaction,
+     time(&timer);
+     memset(tstr, '\0', 200);
+ 
+-    localtime_r(&timer, &timeinfo);
++    //localtime_r(&timer, &timeinfo);
+     strftime(tstr, 200, "%u", &timeinfo);
+ 
+     transaction->m_variableTimeWDay.assign(tstr);
+diff --git a/src/variables/time_year.cc b/src/variables/time_year.cc
+index 29493c2d..9add2ec7 100644
+--- a/src/variables/time_year.cc
++++ b/src/variables/time_year.cc
+@@ -15,6 +15,7 @@
+ 
+ #include "src/variables/time_year.h"
+ 
++#define __STDC_WANT_LIB_EXT1__ 1
+ #include <time.h>
+ #include <stdio.h>
+ #include <string.h>
+@@ -43,7 +44,7 @@ void TimeYear::evaluate(Transaction *transaction,
+     time(&timer);
+     memset(tstr, '\0', 200);
+ 
+-    localtime_r(&timer, &timeinfo);
++    //localtime_r(&timer, &timeinfo);
+     strftime(tstr, 200, "%Y", &timeinfo);
+ 
+     transaction->m_variableTimeYear.assign(tstr);
+diff --git a/test/common/modsecurity_test.cc b/test/common/modsecurity_test.cc
+index 28a48500..6a5710cc 100644
+--- a/test/common/modsecurity_test.cc
++++ b/test/common/modsecurity_test.cc
+@@ -18,7 +18,7 @@
+ #ifdef WITH_YAJL
+ #include <yajl/yajl_tree.h>
+ #endif
+-#include <dirent.h>
++#include "dirent.h"
+ #include <string.h>
+ #include <sys/stat.h>
+ 
+@@ -47,7 +47,9 @@ std::string ModSecurityTest<T>::header() {
+ 
+ template <class T>
+ bool ModSecurityTest<T>::load_test_json(std::string file) {
+-    char errbuf[1024];
++    
++	char errbuf[1024];
++
+     yajl_val node;
+ 
+     std::ifstream myfile;
+@@ -145,9 +147,9 @@ void ModSecurityTest<T>::cmd_options(int argc, char **argv) {
+         i++;
+         m_count_all = true;
+     }
+-    if (const char* env_p = std::getenv("AUTOMAKE_TESTS")) {
+-        m_automake_output = true;
+-    }
++//    if (const char* env_p = std::getenv("AUTOMAKE_TESTS")) {
++        //m_automake_output = true;
++    //}
+ 
+     if (argc > i && argv[i]) {
+         this->target = argv[i];
+diff --git a/test/regression/regression.cc b/test/regression/regression.cc
+index 46da615e..69a30dc5 100644
+--- a/test/regression/regression.cc
++++ b/test/regression/regression.cc
+@@ -15,7 +15,6 @@
+ 
+ #include <string.h>
+ 
+-#include <unistd.h>
+ 
+ #include <ctime>
+ #include <iostream>
+@@ -436,7 +435,9 @@ int main(int argc, char **argv) {
+     std::string ver(MODSECURITY_VERSION);
+     std::string envvar("MODSECURITY=ModSecurity " + ver + " regression tests");
+ 
++#if 0
+     putenv(strdup(envvar.c_str()));
++#endif
+ #ifndef NO_LOGS
+     int test_number = 0;
+ #endif
+diff --git a/test/unit/unit_test.cc b/test/unit/unit_test.cc
+index 23bbcb23..1c4892c1 100644
+--- a/test/unit/unit_test.cc
++++ b/test/unit/unit_test.cc
+@@ -66,7 +66,7 @@ void json2bin(std::string *str) {
+         unsigned int p;
+         std::string toBeReplaced = match.str();
+         toBeReplaced.erase(0, 2);
+-        sscanf(toBeReplaced.c_str(), "%x", &p);
++		sscanf_s(toBeReplaced.c_str(), "%x", &p);
+         replaceAll(str, match.str(), p);
+     }
+ 
+@@ -74,7 +74,7 @@ void json2bin(std::string *str) {
+         unsigned int p;
+         std::string toBeReplaced = match.str();
+         toBeReplaced.erase(0, 2);
+-        sscanf(toBeReplaced.c_str(), "%4x", &p);
++		sscanf_s(toBeReplaced.c_str(), "%4x", &p);
+         replaceAll(str, match.str(), p);
+     }
+ 
