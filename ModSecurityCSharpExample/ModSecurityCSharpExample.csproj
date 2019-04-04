@@ -54,5 +54,11 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\libModSecurityManaged\libModSecurityManaged.vcxproj">
+      <Project>{e5c5242d-d9f4-4658-9408-534e4f49f83c}</Project>
+      <Name>libModSecurityManaged</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

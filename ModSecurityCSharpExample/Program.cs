@@ -1,4 +1,5 @@
 ﻿using CommandAndConquer.CLI.Core;
+using libModSecurityManaged;
 
 namespace ModSecurityCSharpExample
 {
@@ -7,6 +8,7 @@ namespace ModSecurityCSharpExample
         static void Main(string[] args)
         {
             Processor.ProcessArguments(args);
+            new ModSecurityManaged();
         }
     }
 }

@@ -85,17 +85,13 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <CustomBuildStep>
-
       <Message>Copy regression.bat</Message>
-
       <Command>copy "$(MSBuildProjectDirectory)\regression.bat" "$(MSBuildProjectDirectory)\..\Debug\."</Command>
       <Outputs>dlls;regression.bat
 %(Outputs)</Outputs>
-
-      <Inputs></Inputs>
-
+      <Inputs>
+      </Inputs>
     </CustomBuildStep>
-
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
@@ -104,7 +100,7 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions);WITH_YAJL</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <AdditionalIncludeDirectories>$(MSBuildProjectDirectory)\..\ModSecurity\;$(MSBuildProjectDirectory)\..\ModSecurity\others;$(MSBuildProjectDirectory)\..\ModSecurity\headers;$(MSBuildProjectDirectory)\..\external\yajl\build\yajl-2.1.1\include;$(MSBuildProjectDirectory)\..\external\pcre-8.43;$(MSBuildProjectDirectory)\;$(MSBuildProjectDirectory)\..\libModSecurity</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
@@ -123,7 +119,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions);WITH_YAJL</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <AdditionalIncludeDirectories>$(MSBuildProjectDirectory)\..\ModSecurity\;$(MSBuildProjectDirectory)\..\ModSecurity\others;$(MSBuildProjectDirectory)\..\ModSecurity\headers;$(MSBuildProjectDirectory)\..\external\yajl\build\yajl-2.1.1\include;$(MSBuildProjectDirectory)\..\external\pcre-8.43;$(MSBuildProjectDirectory)\;$(MSBuildProjectDirectory)\..\libModSecurity</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
@@ -144,7 +140,7 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions);WITH_YAJL</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <AdditionalIncludeDirectories>$(MSBuildProjectDirectory)\..\ModSecurity\;$(MSBuildProjectDirectory)\..\ModSecurity\others;$(MSBuildProjectDirectory)\..\ModSecurity\headers;$(MSBuildProjectDirectory)\..\external\yajl\build\yajl-2.1.1\include;$(MSBuildProjectDirectory)\..\external\pcre-8.43;$(MSBuildProjectDirectory)\;$(MSBuildProjectDirectory)\..\libModSecurity</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
@@ -167,7 +163,7 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions);WITH_YAJL</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <AdditionalIncludeDirectories>$(MSBuildProjectDirectory)\..\ModSecurity\;$(MSBuildProjectDirectory)\..\ModSecurity\others;$(MSBuildProjectDirectory)\..\ModSecurity\headers;$(MSBuildProjectDirectory)\..\external\yajl\build\yajl-2.1.1\include;$(MSBuildProjectDirectory)\..\external\pcre-8.43;$(MSBuildProjectDirectory)\;$(MSBuildProjectDirectory)\..\libModSecurity</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
