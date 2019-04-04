@@ -12,6 +12,11 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModSecurityCSharpExample", "ModSecurityCSharpExample\ModSecurityCSharpExample.csproj", "{F41C1E3C-37D8-475E-AA1D-0A354C4A9BDA}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libModSecurityManaged", "libModSecurityManaged\libModSecurityManaged.vcxproj", "{E5C5242D-D9F4-4658-9408-534E4F49F83C}"
+	ProjectSection(ProjectDependencies) = postProject
+		{9E746019-0000-0000-0000-000000000000} = {9E746019-0000-0000-0000-000000000000}
+		{9E746019-7B6A-4949-B33A-7323C19F8EB9} = {9E746019-7B6A-4949-B33A-7323C19F8EB9}
+		{F629E4EA-75DD-40B8-ABA8-2FEAF31D818E} = {F629E4EA-75DD-40B8-ABA8-2FEAF31D818E}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
