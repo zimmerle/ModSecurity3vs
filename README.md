@@ -23,7 +23,7 @@ yet.
 
 ### How to Build
 
-1. Update all git submodules
+#### 1. Update all git submodules
 
 ```bash
 cd project_folder
@@ -34,16 +34,16 @@ git submodule init
 git submodule update
 ```
 
-2. Build the external dependencies
+#### 2. Build the external dependencies
 
-2.1. yajl
+##### 2.1. yajl
 
 ```bash
 cd project_folder/external
 build_yajl
 ```
 
-2.2. pcre
+##### 2.2. pcre
 
 
 Download pcre-9.43.zip
@@ -54,14 +54,14 @@ cd project_folder/external
 build_pcre
 ```
 
-3. Apply patch to make ModSecurity compile on windows
+#### 3. Apply patch to make ModSecurity compile on windows
 
 ```bash
 cd project_folder/ModSecurity
 patch -p1 < ../make_it_compile.patch
 ```
 
-4. Open the solution in Visual Studio and compile with *Debug|Win32*.
+#### 4. Open the solution in Visual Studio and compile with *Debug|Win32*.
 
 ### Author
 
